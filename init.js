@@ -24,10 +24,14 @@ var zbfListDbCreate = new sqlite3.Database(zbfListDb);
 
 deviceCountDbCreate.serialize(function() {
 	if(!dcExist){
-		deviceCountDbCreate.run("CREATE TABLE DeviceCount (zone TEXT, building TEXT, floor TEXT, count TEXT)");	
+		deviceCountDbCreate.run("CREATE TABLE DeviceCount (zone TEXT, building TEXT, floor TEXT, count TEXT, time TEXT)");	
 		deviceCountDbCreate.run ("CREATE TABLE AggregateBuilding(buildingId TEXT, buildingName TEXT, deviceCount TEXT, time TEXT)");
 		deviceCountDbCreate.run ("CREATE TABLE AggregateZone(zoneId TEXT, zoneName TEXT, deviceCount TEXT, time TEXT)");
 		deviceCountDbCreate.run ("CREATE TABLE AggregateUniversity(uniId TEXT, uniName TEXT, deviceCount TEXT, time TEXT)");
+		deviceCountDbCreate.run ("CREATE TABLE ForecastBuilding(buildingId TEXT, buildingName TEXT, deviceCount TEXT, time TEXT)");
+		deviceCountDbCreate.run ("CREATE TABLE ForecastZone(zoneId TEXT, zoneName TEXT, deviceCount TEXT, time TEXT)");
+		deviceCountDbCreate.run ("CREATE TABLE ForecastUniversity(uniId TEXT, uniName TEXT, deviceCount TEXT, time TEXT)");
+
 	}
 });
 
