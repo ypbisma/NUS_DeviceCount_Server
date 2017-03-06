@@ -28,9 +28,12 @@ deviceCountDbCreate.serialize(function() {
 		deviceCountDbCreate.run ("CREATE TABLE AggregateBuilding(buildingId TEXT, buildingName TEXT, deviceCount TEXT, time TEXT)");
 		deviceCountDbCreate.run ("CREATE TABLE AggregateZone(zoneId TEXT, zoneName TEXT, deviceCount TEXT, time TEXT)");
 		deviceCountDbCreate.run ("CREATE TABLE AggregateUniversity(uniId TEXT, uniName TEXT, deviceCount TEXT, time TEXT)");
-		deviceCountDbCreate.run ("CREATE TABLE ForecastBuilding(buildingId TEXT, buildingName TEXT, deviceCount TEXT, time TEXT)");
-		deviceCountDbCreate.run ("CREATE TABLE ForecastZone(zoneId TEXT, zoneName TEXT, deviceCount TEXT, time TEXT)");
-		deviceCountDbCreate.run ("CREATE TABLE ForecastUniversity(uniId TEXT, uniName TEXT, deviceCount TEXT, time TEXT)");
+		deviceCountDbCreate.run ("CREATE TABLE ForecastBuilding(buildingId TEXT, buildingName TEXT, ma3 TEXT, ma5 TEXT, wa TEXT, es TEXT, time TEXT)");
+		deviceCountDbCreate.run ("CREATE TABLE ForecastZoneMa3(zoneId TEXT, zoneName TEXT, ma3 TEXT, time TEXT)");
+		deviceCountDbCreate.run("CREATE TABLE ForecastZoneMa5(zoneId TEXT, zoneName TEXT, ma5 TEXT, time TEXT)");
+		deviceCountDbCreate.run("CREATE TABLE ForecastZoneWa(zoneId TEXT, zoneName TEXT, wa TEXT, time TEXT)");
+		deviceCountDbCreate.run("CREATE TABLE ForecastZoneEs(zoneId TEXT, zoneName TEXT, es TEXT, time TEXT)");
+		deviceCountDbCreate.run ("CREATE TABLE ForecastUniversity(uniId TEXT, uniName TEXT, ma3 TEXT, ma5 TEXT, wa TEXT, es TEXT, time TEXT)");
 
 	}
 });
