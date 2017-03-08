@@ -66,7 +66,6 @@ router.get('/devicecountuni', function(req, res) {
 });
 
 router.get('/testchart', function(req, res) {
-	console.log(__dirname);
     res.sendFile(path.join(__dirname + '/testChart.html'));
 });
 

@@ -39,7 +39,7 @@
 				type: "line",
 				xValueType: "dateTime",
 				showInLegend: true,
-				name: "Company A",
+				name: "Device Count",
 				dataPoints: dataPoints1
 			},
 			{				
@@ -66,61 +66,60 @@
 
 
 
-		var updateInterval = 3000;
+		var updateInterval = 180000;
 		// initial value
 		var yValue1 = 640; 
 		var yValue2 = 604;
 
-		var time = new Date;
-		time.setHours(9);
-		time.setMinutes(30);
-		time.setSeconds(00);
-		time.setMilliseconds(00);
-		// starting at 9.30 am
+		var latestTime = new Date;
+		latestTime.setHours(0,0,0,0);
 
 		var updateChart = function (count) {
 			var arr = []
 			$.getJSON( "http://localhost:9090/nusdcapi/devicecountuni", function( data ) {
 				console.log(data);
 				arr = data["uni_counts"];
-				console.log(arr[2].deviceCount);
-			})
-			count = count || 1;
+				count = count || 1;
 
-			// count is number of times loop runs to generate random dataPoints. 
+				// count is number of times loop runs to generate random dataPoints. 
 
-			for (var i = 0; i < count; i++) {
-				
-				// add interval duration to time				
-				time.setTime(time.getTime()+ updateInterval);
+				for (var i = 0; i < arr.length; i++) {
+					
 
+					console.log(arr);
+					console.log(arr[i].time.split(":"));
+					var timeArr = arr[i].time.split(":");
+					var time = new Date;
+					time.setHours(timeArr[0]);
+					time.setMinutes(timeArr[1]);
+					time.setSeconds(timeArr[2]);
 
-				// generating random values
-				var deltaY1 = .5 + Math.random() *(-.5-.5);
-				var deltaY2 = .5 + Math.random() *(-.5-.5);
+					console.log(time);
+					if(time > latestTime) {
+						dataPoints1.push({
+							x: time,
+							y: parseFloat(arr[i].deviceCount)
+						});
+					}
 
-				// adding random value and rounding it to two digits. 
-				yValue1 = Math.round((yValue1 + deltaY1)*100)/100;
-				yValue2 = Math.round((yValue2 + deltaY2)*100)/100;
-				
-				// pushing the new values
-				dataPoints1.push({
-					x: time.getTime(),
-					y: yValue1
-				});
-				dataPoints2.push({
-					x: time.getTime(),
-					y: yValue2
-				});
+					// dataPoints2.push({
+					// 	x: time.getTime(),
+					// 	y: parseFloat(arr[i].deviceCount)
+					// });
 
 
-			};
+				};
+				var timeArr = arr[arr.length - 1].time.split(":");
+				latestTime = new Date;
+				latestTime.setHours(timeArr[0]);
+				latestTime.setMinutes(timeArr[1]);
+				latestTime.setSeconds(timeArr[2]);
+				// updating legend text with  updated with y Value 
+				chart.options.data[0].legendText = " Device Count NUS ";
+				chart.options.data[1].legendText = " Company B  $" + yValue2; 
 
-			// updating legend text with  updated with y Value 
-			chart.options.data[0].legendText = " Company A  $" + yValue1;
-			chart.options.data[1].legendText = " Company B  $" + yValue2; 
-
-			chart.render();
+				chart.render();
+			});
 
 		};
 
