@@ -11,6 +11,8 @@ app.use(bodyParser.json());
 
 var port = process.env.PORT || 9090;	//set our port
 
+var path = require('path');
+
 //	ROUTES FOR OUR API
 // ===============
 
@@ -61,6 +63,11 @@ router.get('/devicecountuni', function(req, res) {
 			res.json({uni_counts: uniDeviceCountList});
 		});
 	});
+});
+
+router.get('/testchart', function(req, res) {
+	console.log(__dirname);
+    res.sendFile(path.join(__dirname + '/testChart.html'));
 });
 
 //Register Our Routes
