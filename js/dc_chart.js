@@ -79,10 +79,7 @@ $(function() {
 	var updateChart = function () {
 		var arr = []
 		$.getJSON(apiLink, function( data ) {
-			console.log(data);
 			arr = data["uni_counts"];
-			
-
 
 			// count is number of times loop runs to generate random dataPoints. 
 

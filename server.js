@@ -2,9 +2,12 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 
-var file = "nusdc.db";
+var filedc = "nusdc.db";
+var filezbf = "zonebuildingfloor.db";
+
 var sqlite3 = require("sqlite3").verbose();
-var db = new sqlite3.Database(file);
+var devicedb = new sqlite3.Database(filedc);
+var zbfdb = new sqlite3.Database(filezbf);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -18,14 +21,13 @@ var path = require('path');
 
 var router = express.Router();
 
-// test route to make sure everything is working
 
 router.get('/devicecountzone', function(req, res) {
 	
 
-	db.serialize(function() {
+	devicedb.serialize(function() {
 		var zoneDeviceCountList = [];
-		db.all("Select rowid AS id, zoneId, zoneName, deviceCount, time FROM AggregateZone", function(err, rows) {
+		devicedb.all("Select rowid AS id, zoneId, zoneName, deviceCount, time, date FROM AggregateZone", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
 				zoneDeviceCountList.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
 			}		
@@ -38,9 +40,9 @@ router.get('/devicecountzone', function(req, res) {
 router.get('/devicecountbuilding', function(req, res) {
 	
 
-	db.serialize(function() {
+	devicedb.serialize(function() {
 		var buildingDeviceCountList = [];
-		db.all("Select rowid AS id, buildingId, buildingName, deviceCount, time FROM AggregateBuilding", function(err, rows) {
+		devicedb.all("Select rowid AS id, buildingId, buildingName, deviceCount, time, date FROM AggregateBuilding", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
 				buildingDeviceCountList.push({id: rows[i].id, buildingId: rows[i].buildingId, buildingName: rows[i].buildingName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
 			}		
@@ -53,9 +55,9 @@ router.get('/devicecountbuilding', function(req, res) {
 router.get('/devicecountuni', function(req, res) {
 	
 
-	db.serialize(function() {
+	devicedb.serialize(function() {
 		var uniDeviceCountList = [];
-		db.all("Select rowid AS id, uniId, uniName, deviceCount, time FROM AggregateUniversity", function(err, rows) {
+		devicedb.all("Select rowid AS id, uniId, uniName, deviceCount, time FROM AggregateUniversity", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
 				uniDeviceCountList.push({id: rows[i].id, uniId: rows[i].uniId, uniName: rows[i].uniName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
 			}		
@@ -65,12 +67,45 @@ router.get('/devicecountuni', function(req, res) {
 	});
 });
 
+
+router.get('/forecastzonema3', function(req, res) {
+	
+
+	devicedb.serialize(function() {
+		var forecastZoneMa3 = [];
+		devicedb.all("Select rowid AS id, zoneId, zoneName, ma3, time, date FROM forecastzonema3", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				forecastZoneMa3.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, ma3: rows[i].ma3, time: rows[i].time, date: rows[i].date});
+			}		
+			
+			res.json({forecast_zonema3: forecastZoneMa3});
+		});
+	});
+});
+
+
+
+router.get('/getallbuildings', function(req, res) {
+	
+
+	zbfdb.serialize(function() {
+		var buildingList = [];
+		zbfdb.all("Select rowid AS id, buildingId, buildingName, zoneId FROM building", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				buildingList.push({id: rows[i].id, buildingId: rows[i].buildingId, buildingName: rows[i].buildingName, zoneId: rows[i].zoneId});
+			}		
+			
+			res.json({building_list: buildingList});
+		});
+	});
+});
+
 router.get('/testchart', function(req, res) {
     res.sendFile(path.join(__dirname + '/testChart.html'));
 });
 
-router.get('/bisma_chart.js', function(req, res) {
-	res.sendFile(path.join(__dirname + '/bisma_chart.js'));
+router.get('/dc_chart.js', function(req, res) {
+	res.sendFile(path.join(__dirname + '/js/dc_chart.js'));
 })
 
 router.get('/test.js', function(req, res) {
