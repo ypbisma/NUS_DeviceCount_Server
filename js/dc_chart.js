@@ -72,23 +72,22 @@ $(function() {
 	latestTime.setHours(0,0,0,0);
 
 	
-	apiLink = "http://localhost:9090/nusdcapi/devicecountuni"
-	
+	apiLinkActual = "http://localhost:9090/nusdcapi/devicecountuni"
+	apiLinkForecast = "http://localhost:9090/nusdcapi/forecastuniwa"
 
 
 	var updateChart = function () {
-		var arr = []
-		$.getJSON(apiLink, function( data ) {
-			arr = data["uni_counts"];
+		var arrActual = []
+
+		$.getJSON(apiLinkActual, function( data ) {
+			arrActual = data["uni_counts"];
+
 
 			// count is number of times loop runs to generate random dataPoints. 
 
-			for (var i = 0; i < arr.length; i++) {
+			for (var i = 0; i < arrActual.length; i++) {
 				
-
-				console.log(arr);
-				console.log(arr[i].time.split(":"));
-				var timeArr = arr[i].time.split(":");
+				var timeArr = arrActual[i].time.split(":");
 				var time = new Date;
 				time.setHours(timeArr[0]);
 				time.setMinutes(timeArr[1]);
@@ -98,18 +97,12 @@ $(function() {
 				if(time > latestTime) {
 					dataPoints1.push({
 						x: time,
-						y: parseFloat(arr[i].deviceCount)
+						y: parseFloat(arrActual[i].deviceCount)
 					});
 				}
 
-				// dataPoints2.push({
-				// 	x: time.getTime(),
-				// 	y: parseFloat(arr[i].deviceCount)
-				// });
-
-
 			};
-			var timeArr = arr[arr.length - 1].time.split(":");
+			var timeArr = arrActual[arrActual.length - 1].time.split(":");
 			latestTime = new Date;
 			latestTime.setHours(timeArr[0]);
 			latestTime.setMinutes(timeArr[1]);
@@ -120,11 +113,52 @@ $(function() {
 
 			chart.render();
 		});
+	};
 
+	var updateChart2 = function () {	
+		var arrForecast = []
+		console.log("here");
+		$.getJSON(apiLinkForecast, function( data ) {
+		  	arrForecast = data["forecast_uniwa"];
+
+		  	for (var j = 0; j < arrForecast.length; j++) {
+		  		console.log(arrForecast[j].wa);
+		  		var timeArr = arrForecast[j].time.split(":");
+				var time = new Date;
+				time.setHours(timeArr[0]);
+				time.setMinutes(timeArr[1]);
+				time.setSeconds(timeArr[2]);
+
+				console.log(time);
+				if(time > latestTime) {
+					var tenMinutesLater = new Date();
+					tenMinutesLater.setMinutes(time.getMinutes() + 20);
+					dataPoints2.push({
+						x: tenMinutesLater,
+						y: parseFloat(arrForecast[j].wa)
+					});
+				};
+		  	};
+
+
+			var timeArr = arrForecast[arrForecast.length - 1].time.split(":");
+			latestTime = new Date;
+			latestTime.setHours(timeArr[0]);
+			latestTime.setMinutes(timeArr[1]);
+			latestTime.setSeconds(timeArr[2]);
+			// updating legend text with  updated with y Value 
+			chart.options.data[0].legendText = " Device Count NUS";
+			chart.options.data[1].legendText = " Forecast"; 
+
+			chart.render();
+		// });
+	
+		});
 	};
 
 	// generates first set of dataPoints 
 	updateChart();	
+	updateChart2();
 	 
 	// update chart after specified interval 
 	setInterval(function(){updateChart()}, updateInterval);
