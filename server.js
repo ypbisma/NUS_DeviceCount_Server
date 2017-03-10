@@ -27,7 +27,7 @@ router.get('/devicecountzone', function(req, res) {
 		var zoneDeviceCountList = [];
 		db.all("Select rowid AS id, zoneId, zoneName, deviceCount, time FROM AggregateZone", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
-				zoneDeviceCountList.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, deviceCount: rows[i].deviceCount, time: rows[i].time});
+				zoneDeviceCountList.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
 			}		
 			
 			res.json({zone_counts: zoneDeviceCountList});
@@ -42,7 +42,7 @@ router.get('/devicecountbuilding', function(req, res) {
 		var buildingDeviceCountList = [];
 		db.all("Select rowid AS id, buildingId, buildingName, deviceCount, time FROM AggregateBuilding", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
-				buildingDeviceCountList.push({id: rows[i].id, buildingId: rows[i].buildingId, buildingName: rows[i].buildingName, deviceCount: rows[i].deviceCount, time: rows[i].time});
+				buildingDeviceCountList.push({id: rows[i].id, buildingId: rows[i].buildingId, buildingName: rows[i].buildingName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
 			}		
 			
 			res.json({building_counts: buildingDeviceCountList});
@@ -57,7 +57,7 @@ router.get('/devicecountuni', function(req, res) {
 		var uniDeviceCountList = [];
 		db.all("Select rowid AS id, uniId, uniName, deviceCount, time FROM AggregateUniversity", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
-				uniDeviceCountList.push({id: rows[i].id, uniId: rows[i].uniId, uniName: rows[i].uniName, deviceCount: rows[i].deviceCount, time: rows[i].time});
+				uniDeviceCountList.push({id: rows[i].id, uniId: rows[i].uniId, uniName: rows[i].uniName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
 			}		
 			
 			res.json({uni_counts: uniDeviceCountList});
@@ -68,6 +68,14 @@ router.get('/devicecountuni', function(req, res) {
 router.get('/testchart', function(req, res) {
     res.sendFile(path.join(__dirname + '/testChart.html'));
 });
+
+router.get('/bisma_chart.js', function(req, res) {
+	res.sendFile(path.join(__dirname + '/bisma_chart.js'));
+})
+
+router.get('/test.js', function(req, res) {
+	res.sendFile(path.join(__dirname + '/js/test.js'));
+})
 
 //Register Our Routes
 //all of our routes will be prefixed with /api
