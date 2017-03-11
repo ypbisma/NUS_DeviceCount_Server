@@ -14,6 +14,7 @@ $(function() {
 
 	apiLinkAllBuildings = "http://localhost:9090/nusdcapi/getallbuildings";
 	apiLinkAllFloors = "http://localhost:9090/nusdcapi/getallfloors";
+	var zoneChoice;
 
 
 	$("#zone_option").on("change", function() {
@@ -21,8 +22,6 @@ $(function() {
 			arrBuildings = data["building_list"];
 
 			if(($("#zone_option").val()) == '1'){
-
-				
 				$("#building_option").html("");
 				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
 
@@ -31,6 +30,7 @@ $(function() {
 						$("#building_option").append("<option value="+arrBuildings[i].buildingId+">"+arrBuildings[i].buildingName+"</option>");
 					}
 				}
+				zoneChoice = $("#zone_option").val();
 			}
 			if(($("#zone_option").val()) == '2'){
 				

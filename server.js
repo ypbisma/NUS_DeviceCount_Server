@@ -23,7 +23,7 @@ var router = express.Router();
 
 
 
-
+//
 router.get('/devicecountbuilding', function(req, res) {
 	
 
@@ -34,7 +34,7 @@ router.get('/devicecountbuilding', function(req, res) {
 				buildingDeviceCountList.push({id: rows[i].id, buildingId: rows[i].buildingId, buildingName: rows[i].buildingName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
 			}		
 			
-			res.json({building_counts: buildingDeviceCountList});
+			res.json({counts: buildingDeviceCountList});
 		});
 	});
 });
@@ -50,7 +50,7 @@ router.get('/devicecountuni', function(req, res) {
 				uniDeviceCountList.push({id: rows[i].id, uniId: rows[i].uniId, uniName: rows[i].uniName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
 			}		
 			
-			res.json({uni_counts: uniDeviceCountList});
+			res.json({counts: uniDeviceCountList});
 		});
 	});
 });
@@ -65,7 +65,7 @@ router.get('/forecastunima3', function(req, res) {
 				forecastUniMa3.push({id: rows[i].id, uniId: rows[i].uniId, uniName: rows[i].uniName, forecast: rows[i].ma3, time: rows[i].time, date: rows[i].date});
 			}		
 			
-			res.json({forecast_unima3: forecastUniMa3});
+			res.json({forecast: forecastUniMa3});
 		});
 	});
 });
@@ -80,7 +80,7 @@ router.get('/forecastunima5', function(req, res) {
 				forecastUniMa5.push({id: rows[i].id, uniId: rows[i].uniId, uniName: rows[i].uniName, forecast: rows[i].ma5, time: rows[i].time, date: rows[i].date});
 			}		
 			
-			res.json({forecast_unima5: forecastUniMa5});
+			res.json({forecast: forecastUniMa5});
 		});
 	});
 });
@@ -95,7 +95,7 @@ router.get('/forecastuniwa', function(req, res) {
 				forecastUniWa.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, forecast: rows[i].wa, time: rows[i].time, date: rows[i].date});
 			}		
 			
-			res.json({forecast_uniwa: forecastUniWa});
+			res.json({forecast: forecastUniWa});
 		});
 	});
 });
@@ -111,7 +111,7 @@ router.get('/devicecountzone', function(req, res) {
 				zoneDeviceCountList.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
 			}		
 			
-			res.json({zone_counts: zoneDeviceCountList});
+			res.json({counts: zoneDeviceCountList});
 		});
 	});
 });
@@ -126,7 +126,7 @@ router.get('/forecastzonema3', function(req, res) {
 				forecastZoneMa3.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, forecast: rows[i].ma3, time: rows[i].time, date: rows[i].date});
 			}		
 			
-			res.json({forecast_zonema3: forecastZoneMa3});
+			res.json({forecast: forecastZoneMa3});
 		});
 	});
 });
@@ -141,7 +141,7 @@ router.get('/forecastzonema5', function(req, res) {
 				forecastZoneMa5.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, forecast: rows[i].ma5, time: rows[i].time, date: rows[i].date});
 			}		
 			
-			res.json({forecast_zonema5: forecastZoneMa5});
+			res.json({forecast: forecastZoneMa5});
 		});
 	});
 });
@@ -156,7 +156,7 @@ router.get('/forecastzonewa', function(req, res) {
 				forecastZoneWa.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, forecast: rows[i].wa, time: rows[i].time, date: rows[i].date});
 			}		
 			
-			res.json({forecast_zonewa: forecastZoneWa});
+			res.json({forecast: forecastZoneWa});
 		});
 	});
 });

@@ -29,7 +29,7 @@ $(function() {
 		axisY:{	
 			includeZero: false,
 			titleFontFamily: "arial",
-			minimum: 1500,
+			// minimum: 1500,
 		}, 
 		data: [{ 
 			// dataSeries1
@@ -73,14 +73,14 @@ $(function() {
 
 	
 	apiLinkActual = "http://localhost:9090/nusdcapi/devicecountuni"
-	apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima5"
+	apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima3"
 
 
 	var updateChart = function () {
 		var arrActual = []
 
 		$.getJSON(apiLinkActual, function( data ) {
-			arrActual = data["uni_counts"];
+			arrActual = data["counts"];
 
 
 			// count is number of times loop runs to generate random dataPoints. 
@@ -93,12 +93,13 @@ $(function() {
 				time.setMinutes(timeArr[1]);
 				time.setSeconds(timeArr[2]);
 
-				console.log(time);
 				if(time > latestTime) {
-					dataPoints1.push({
-						x: time,
-						y: parseFloat(arrActual[i].deviceCount)
-					});
+					// if(arrActual[i].zoneId == "1"){
+						dataPoints1.push({
+							x: time,
+							y: parseFloat(arrActual[i].deviceCount)
+						});
+					// }
 				}
 
 			};
@@ -118,7 +119,7 @@ $(function() {
 	var updateChart2 = function () {	
 		var arrForecast = []
 		$.getJSON(apiLinkForecast, function( data ) {
-		  	arrForecast = data["forecast_unima5"];
+		  	arrForecast = data["forecast"];
 
 		  	for (var j = 0; j < arrForecast.length; j++) {
 		  		var timeArr = arrForecast[j].time.split(":");
@@ -127,12 +128,12 @@ $(function() {
 				time.setMinutes(timeArr[1]);
 				time.setSeconds(timeArr[2]);
 				time.setMinutes(time.getMinutes() + 5);
-				// if(time > latestTime) {
+				if(arrForecast[j].forecast != '0.0') {
 					dataPoints2.push({
 						x: time,
 						y: parseFloat(arrForecast[j].forecast)
 					});
-				// };
+				};
 		  	};
 
 
