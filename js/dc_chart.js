@@ -16,7 +16,7 @@ $(function() {
 		legend: {
 			verticalAlign: "top",
 			horizontalAlign: "center",
-                            fontSize: 14,
+			fontSize: 14,
 			fontWeight: "bold",
 			fontFamily: "arial",
 			fontColor: "dimGrey"
@@ -47,23 +47,23 @@ $(function() {
 			name: "Forecast" ,
 			dataPoints: dataPoints2
 		}],
-      legend:{
-        cursor:"pointer",
-        itemclick : function(e) {
-          if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-            e.dataSeries.visible = false;
-          }
-          else {
-            e.dataSeries.visible = true;
-          }
-          chart.render();
-        }
-      }
+		legend:{
+			cursor:"pointer",
+			itemclick : function(e) {
+				if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+					e.dataSeries.visible = false;
+				}
+				else {
+					e.dataSeries.visible = true;
+				}
+				chart.render();
+			}
+		}
 	});
 
 
-	var apiLink
-	var updateInterval = 180000;//3 minutes
+var apiLink
+	var updateInterval = 3000;//3 minutes
 	// initial value
 	var yValue1 = 640; 
 	var yValue2 = 604;
@@ -72,8 +72,8 @@ $(function() {
 	latestTime.setHours(0,0,0,0);
 
 	
-	apiLinkActual = "http://localhost:9090/nusdcapi/devicecountuni"
-	apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima3"
+	apiLinkActual = "http://localhost:9090/nusdcapi/devicecountzone"
+	apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonema3"
 
 
 	var updateChart = function () {
@@ -94,12 +94,12 @@ $(function() {
 				time.setSeconds(timeArr[2]);
 
 				if(time > latestTime) {
-					// if(arrActual[i].zoneId == "1"){
+					if(arrActual[i].zoneId == "1"){
 						dataPoints1.push({
 							x: time,
 							y: parseFloat(arrActual[i].deviceCount)
 						});
-					// }
+					}
 				}
 
 			};
@@ -119,22 +119,25 @@ $(function() {
 	var updateChart2 = function () {	
 		var arrForecast = []
 		$.getJSON(apiLinkForecast, function( data ) {
-		  	arrForecast = data["forecast"];
+			arrForecast = data["forecast"];
 
-		  	for (var j = 0; j < arrForecast.length; j++) {
-		  		var timeArr = arrForecast[j].time.split(":");
+			for (var j = 0; j < arrForecast.length; j++) {
+				var timeArr = arrForecast[j].time.split(":");
 				var time = new Date;
 				time.setHours(timeArr[0]);
 				time.setMinutes(timeArr[1]);
 				time.setSeconds(timeArr[2]);
 				time.setMinutes(time.getMinutes() + 5);
 				if(arrForecast[j].forecast != '0.0') {
-					dataPoints2.push({
-						x: time,
-						y: parseFloat(arrForecast[j].forecast)
-					});
+					if(arrForecast[j].zoneId == "1"){
+
+						dataPoints2.push({
+							x: time,
+							y: parseFloat(arrForecast[j].forecast)
+						});
+					}
 				};
-		  	};
+			};
 
 
 			var timeArr = arrForecast[arrForecast.length - 1].time.split(":");
@@ -148,14 +151,14 @@ $(function() {
 
 			chart.render();
 		// });
-	
-		});
+
+	});
 	};
 
 	// generates first set of dataPoints 
 	updateChart();	
 	updateChart2();
-	 
+
 	// update chart after specified interval 
 	setInterval(function(){updateChart()}, updateInterval);
 });
