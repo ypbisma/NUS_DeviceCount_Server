@@ -13,6 +13,7 @@ $(function() {
 	$("#zone_option").append("<option value='9'>UTown</option>");
 
 	apiLinkAllBuildings = "http://localhost:9090/nusdcapi/getallbuildings";
+	apiLinkAllFloors = "http://localhost:9090/nusdcapi/getallfloors";
 
 
 	$("#zone_option").on("change", function() {
@@ -21,7 +22,7 @@ $(function() {
 
 			if(($("#zone_option").val()) == '1'){
 
-				alert($("#zone_option").val());
+				
 				$("#building_option").html("");
 				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
 
@@ -32,7 +33,7 @@ $(function() {
 				}
 			}
 			if(($("#zone_option").val()) == '2'){
-				alert($("#zone_option").val());
+				
 				$("#building_option").html("");
 				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
 
@@ -43,7 +44,7 @@ $(function() {
 				}
 			}
 			if(($("#zone_option").val()) == '3'){
-				alert($("#zone_option").val());
+				
 				$("#building_option").html("");
 				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
 
@@ -54,7 +55,7 @@ $(function() {
 				}
 			}
 			if(($("#zone_option").val()) == '4'){
-				alert($("#zone_option").val());
+				
 				$("#building_option").html("");
 				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
 
@@ -65,7 +66,7 @@ $(function() {
 				}
 			}
 			if(($("#zone_option").val()) == '5'){
-				alert($("#zone_option").val());
+				
 				$("#building_option").html("");
 				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
 
@@ -76,7 +77,7 @@ $(function() {
 				}
 			}
 			if(($("#zone_option").val()) == '6'){
-				alert($("#zone_option").val());
+				
 				$("#building_option").html("");
 				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
 
@@ -87,7 +88,7 @@ $(function() {
 				}
 			}
 			if(($("#zone_option").val()) == '7'){
-				alert($("#zone_option").val());
+				
 				$("#building_option").html("");
 				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
 
@@ -98,22 +99,31 @@ $(function() {
 				}
 			}
 			if(($("#zone_option").val()) == '8'){
-				alert($("#zone_option").val());
+				
 				$("#building_option").html("");
 				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
 
 				for (var i = 0; i < arrBuildings.length; i++) {
 					if($("#zone_option").val() == arrBuildings[i].zoneId){
-						$("#building_option").append("<option value="+arrBuildings[i].buildingId+">"+arrBuildings[i].buildingName+"</option>");
+						$("#building_option").append("<option value="+(arrBuildings[i].buildingId)+">"+arrBuildings[i].buildingName+"</option>");
 					}
 				}
 			}
 		});
-	});
-	
-	$("#building_option").on("change", function() {
-		$.getJSON(apiLinkAllBuildings, function( data ) {
+});
 
-		});
+$("#building_option").on("change", function() {
+	$.getJSON(apiLinkAllFloors, function( data ) {
+		arrFloors = data["floor_list"];
+
+		if(($("#building_option").val()) == '1'){
+			for (var i = 0; i < arrFloors.length; i++) {
+				if($("#building_option").val() == arrFloors[i].buildingId){
+					$("#floor_option").append("<option value="+arrFloors[i].floorId+">"+arrFloors[i].floorName+"</option>");
+				}
+			}
+		}
+
 	});
+});
 });

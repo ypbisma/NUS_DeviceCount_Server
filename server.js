@@ -146,18 +146,33 @@ router.get('/forecastzonewa', function(req, res) {
 	});
 });
 
-
+//ZBF
 router.get('/getallbuildings', function(req, res) {
 	
 
 	zbfdb.serialize(function() {
 		var buildingList = [];
-		zbfdb.all("Select rowid AS id, buildingId, buildingName, zoneId FROM building", function(err, rows) {
+		zbfdb.all("Select rowid AS id, buildingId, buildingName, zoneId FROM Building", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
 				buildingList.push({id: rows[i].id, buildingId: rows[i].buildingId, buildingName: rows[i].buildingName, zoneId: rows[i].zoneId});
 			}		
 			
 			res.json({building_list: buildingList});
+		});
+	});
+});
+
+router.get('/getallfloors', function(req, res) {
+	
+
+	zbfdb.serialize(function() {
+		var floorList = [];
+		zbfdb.all("Select rowid AS id, floorId, floorName, buildingId FROM Floor", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				floorList.push({id: rows[i].id, floorId: rows[i].floorId, floorName: rows[i].floorName, buildingId: rows[i].buildingId});
+			}		
+			
+			res.json({floor_list: floorList});
 		});
 	});
 });
@@ -172,10 +187,13 @@ router.get('/dc_chart.js', function(req, res) {
 	res.sendFile(path.join(__dirname + '/js/dc_chart.js'));
 })
 
-router.get('/test.js', function(req, res) {
-	res.sendFile(path.join(__dirname + '/js/test.js'));
+router.get('/dynamicoptions.js', function(req, res) {
+	res.sendFile(path.join(__dirname + '/js/dynamicoptions.js'));
 })
 
+router.get('/chartupdate.js', function(req, res) {
+	res.sendFile(path.join(__dirname + '/js/chartupdate.js'));
+})
 //Register Our Routes
 //all of our routes will be prefixed with /api
 app.use('/nusdcapi', router);
