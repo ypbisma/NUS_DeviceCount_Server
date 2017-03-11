@@ -62,10 +62,25 @@ router.get('/forecastunima3', function(req, res) {
 		var forecastUniMa3 = [];
 		devicedb.all("Select rowid AS id, uniId, uniName, ma3, time, date FROM ForecastUniMa3", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
-				forecastUniMa3.push({id: rows[i].id, uniId: rows[i].uniId, uniName: rows[i].uniName, ma3: rows[i].ma3, time: rows[i].time, date: rows[i].date});
+				forecastUniMa3.push({id: rows[i].id, uniId: rows[i].uniId, uniName: rows[i].uniName, forecast: rows[i].ma3, time: rows[i].time, date: rows[i].date});
 			}		
 			
 			res.json({forecast_unima3: forecastUniMa3});
+		});
+	});
+});
+
+router.get('/forecastunima5', function(req, res) {
+	
+
+	devicedb.serialize(function() {
+		var forecastUniMa5 = [];
+		devicedb.all("Select rowid AS id, uniId, uniName, ma5, time, date FROM ForecastUniMa5", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				forecastUniMa5.push({id: rows[i].id, uniId: rows[i].uniId, uniName: rows[i].uniName, forecast: rows[i].ma5, time: rows[i].time, date: rows[i].date});
+			}		
+			
+			res.json({forecast_unima5: forecastUniMa5});
 		});
 	});
 });
@@ -77,7 +92,7 @@ router.get('/forecastuniwa', function(req, res) {
 		var forecastUniWa = [];
 		devicedb.all("Select rowid AS id, uniId, uniName, wa, time, date FROM ForecastUniWa", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
-				forecastUniWa.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, wa: rows[i].wa, time: rows[i].time, date: rows[i].date});
+				forecastUniWa.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, forecast: rows[i].wa, time: rows[i].time, date: rows[i].date});
 			}		
 			
 			res.json({forecast_uniwa: forecastUniWa});
@@ -108,7 +123,7 @@ router.get('/forecastzonema3', function(req, res) {
 		var forecastZoneMa3 = [];
 		devicedb.all("Select rowid AS id, zoneId, zoneName, ma3, time, date FROM ForecastZoneMa3", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
-				forecastZoneMa3.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, ma3: rows[i].ma3, time: rows[i].time, date: rows[i].date});
+				forecastZoneMa3.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, forecast: rows[i].ma3, time: rows[i].time, date: rows[i].date});
 			}		
 			
 			res.json({forecast_zonema3: forecastZoneMa3});
@@ -123,7 +138,7 @@ router.get('/forecastzonema5', function(req, res) {
 		var forecastZoneMa5 = [];
 		devicedb.all("Select rowid AS id, zoneId, zoneName, ma5, time, date FROM ForecastZoneMa5", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
-				forecastZoneMa5.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, ma5: rows[i].ma5, time: rows[i].time, date: rows[i].date});
+				forecastZoneMa5.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, forecast: rows[i].ma5, time: rows[i].time, date: rows[i].date});
 			}		
 			
 			res.json({forecast_zonema5: forecastZoneMa5});
@@ -138,7 +153,7 @@ router.get('/forecastzonewa', function(req, res) {
 		var forecastZoneWa = [];
 		devicedb.all("Select rowid AS id, zoneId, zoneName, wa, time, date FROM ForecastZoneWa", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
-				forecastZoneWa.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, wa: rows[i].wa, time: rows[i].time, date: rows[i].date});
+				forecastZoneWa.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, forecast: rows[i].wa, time: rows[i].time, date: rows[i].date});
 			}		
 			
 			res.json({forecast_zonewa: forecastZoneWa});

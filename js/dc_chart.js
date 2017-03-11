@@ -73,7 +73,7 @@ $(function() {
 
 	
 	apiLinkActual = "http://localhost:9090/nusdcapi/devicecountuni"
-	apiLinkForecast = "http://localhost:9090/nusdcapi/forecastuniwa"
+	apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima5"
 
 
 	var updateChart = function () {
@@ -118,7 +118,7 @@ $(function() {
 	var updateChart2 = function () {	
 		var arrForecast = []
 		$.getJSON(apiLinkForecast, function( data ) {
-		  	arrForecast = data["forecast_uniwa"];
+		  	arrForecast = data["forecast_unima5"];
 
 		  	for (var j = 0; j < arrForecast.length; j++) {
 		  		var timeArr = arrForecast[j].time.split(":");
@@ -130,7 +130,7 @@ $(function() {
 				// if(time > latestTime) {
 					dataPoints2.push({
 						x: time,
-						y: parseFloat(arrForecast[j].wa)
+						y: parseFloat(arrForecast[j].forecast)
 					});
 				// };
 		  	};
