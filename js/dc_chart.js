@@ -29,7 +29,7 @@ $(function() {
 		axisY:{	
 			includeZero: false,
 			titleFontFamily: "arial",
-			minimum: 1000,
+			minimum: 1500,
 		}, 
 		data: [{ 
 			// dataSeries1
@@ -44,7 +44,7 @@ $(function() {
 			type: "line",
 			xValueType: "dateTime",
 			showInLegend: true,
-			name: "Company B" ,
+			name: "Forecast" ,
 			dataPoints: dataPoints2
 		}],
       legend:{
@@ -130,14 +130,13 @@ $(function() {
 				time.setSeconds(timeArr[2]);
 
 				console.log(time);
-				if(time > latestTime) {
-					var tenMinutesLater = new Date();
-					tenMinutesLater.setMinutes(time.getMinutes() + 20);
+				time.setMinutes(time.getMinutes() + 5);
+				// if(time > latestTime) {
 					dataPoints2.push({
-						x: tenMinutesLater,
+						x: time,
 						y: parseFloat(arrForecast[j].wa)
 					});
-				};
+				// };
 		  	};
 
 
