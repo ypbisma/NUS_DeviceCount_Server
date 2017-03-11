@@ -18,7 +18,7 @@ $(function() {
 			horizontalAlign: "center",
                             fontSize: 14,
 			fontWeight: "bold",
-			fontFamily: "calibri",
+			fontFamily: "arial",
 			fontColor: "dimGrey"
 		},
 		axisX: {
@@ -117,19 +117,15 @@ $(function() {
 
 	var updateChart2 = function () {	
 		var arrForecast = []
-		console.log("here");
 		$.getJSON(apiLinkForecast, function( data ) {
 		  	arrForecast = data["forecast_uniwa"];
 
 		  	for (var j = 0; j < arrForecast.length; j++) {
-		  		console.log(arrForecast[j].wa);
 		  		var timeArr = arrForecast[j].time.split(":");
 				var time = new Date;
 				time.setHours(timeArr[0]);
 				time.setMinutes(timeArr[1]);
 				time.setSeconds(timeArr[2]);
-
-				console.log(time);
 				time.setMinutes(time.getMinutes() + 5);
 				// if(time > latestTime) {
 					dataPoints2.push({

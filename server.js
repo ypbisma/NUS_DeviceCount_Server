@@ -22,20 +22,7 @@ var path = require('path');
 var router = express.Router();
 
 
-router.get('/devicecountzone', function(req, res) {
-	
 
-	devicedb.serialize(function() {
-		var zoneDeviceCountList = [];
-		devicedb.all("Select rowid AS id, zoneId, zoneName, deviceCount, time, date FROM AggregateZone", function(err, rows) {
-			for (var i = 0; i < rows.length; i++) {
-				zoneDeviceCountList.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
-			}		
-			
-			res.json({zone_counts: zoneDeviceCountList});
-		});
-	});
-});
 
 router.get('/devicecountbuilding', function(req, res) {
 	
@@ -52,6 +39,7 @@ router.get('/devicecountbuilding', function(req, res) {
 	});
 });
 
+//UNIVERSITY
 router.get('/devicecountuni', function(req, res) {
 	
 
@@ -67,6 +55,51 @@ router.get('/devicecountuni', function(req, res) {
 	});
 });
 
+router.get('/forecastunima3', function(req, res) {
+	
+
+	devicedb.serialize(function() {
+		var forecastUniMa3 = [];
+		devicedb.all("Select rowid AS id, uniId, uniName, ma3, time, date FROM ForecastUniMa3", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				forecastUniMa3.push({id: rows[i].id, uniId: rows[i].uniId, uniName: rows[i].uniName, ma3: rows[i].ma3, time: rows[i].time, date: rows[i].date});
+			}		
+			
+			res.json({forecast_unima3: forecastUniMa3});
+		});
+	});
+});
+
+router.get('/forecastuniwa', function(req, res) {
+	
+
+	devicedb.serialize(function() {
+		var forecastUniWa = [];
+		devicedb.all("Select rowid AS id, uniId, uniName, wa, time, date FROM ForecastUniWa", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				forecastUniWa.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, wa: rows[i].wa, time: rows[i].time, date: rows[i].date});
+			}		
+			
+			res.json({forecast_uniwa: forecastUniWa});
+		});
+	});
+});
+
+//ZONE
+router.get('/devicecountzone', function(req, res) {
+	
+
+	devicedb.serialize(function() {
+		var zoneDeviceCountList = [];
+		devicedb.all("Select rowid AS id, zoneId, zoneName, deviceCount, time, date FROM AggregateZone", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				zoneDeviceCountList.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
+			}		
+			
+			res.json({zone_counts: zoneDeviceCountList});
+		});
+	});
+});
 
 router.get('/forecastzonema3', function(req, res) {
 	
@@ -112,22 +145,6 @@ router.get('/forecastzonewa', function(req, res) {
 		});
 	});
 });
-
-router.get('/forecastuniwa', function(req, res) {
-	
-
-	devicedb.serialize(function() {
-		var forecastUniWa = [];
-		devicedb.all("Select rowid AS id, uniId, uniName, wa, time, date FROM ForecastUniWa", function(err, rows) {
-			for (var i = 0; i < rows.length; i++) {
-				forecastUniWa.push({id: rows[i].id, zoneId: rows[i].zoneId, zoneName: rows[i].zoneName, wa: rows[i].wa, time: rows[i].time, date: rows[i].date});
-			}		
-			
-			res.json({forecast_uniwa: forecastUniWa});
-		});
-	});
-});
-
 
 
 router.get('/getallbuildings', function(req, res) {
