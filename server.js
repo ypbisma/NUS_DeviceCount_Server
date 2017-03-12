@@ -192,6 +192,7 @@ router.get('/getallfloors', function(req, res) {
 	});
 });
 
+//FILES
 
 
 router.get('/testchart', function(req, res) {
@@ -208,6 +209,10 @@ router.get('/dynamicoptions.js', function(req, res) {
 
 router.get('/chartupdate.js', function(req, res) {
 	res.sendFile(path.join(__dirname + '/js/chartupdate.js'));
+})
+
+router.get('/chartpage.css', function(req, res) {
+	res.sendFile(path.join(__dirname + '/css/chartpage.css'));
 })
 //Register Our Routes
 //all of our routes will be prefixed with /api

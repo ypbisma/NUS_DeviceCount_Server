@@ -20,11 +20,19 @@ $(function() {
 	$("#zone_option").on("change", function() {
 		$.getJSON(apiLinkAllBuildings, function( data ) {
 			arrBuildings = data["building_list"];
+			document.getElementById("building_option").disabled = false;
 
-			if(($("#zone_option").val()) == '1'){
+			if(($("#zone_option").val()) == '0'){
+				$("#building_option").html("");
+				$("#building_option").append("<option value='-'>"+"-"+"</option>");
+				$("#floor_option").html("");
+				$("#floor_option").append("<option value='-'>"+"-"+"</option>");
+				document.getElementById("building_option").disabled = true;
+				document.getElementById("floor_option").disabled = true;
+				zoneChoice = $("#zone_option").val();
+			} else{
 				$("#building_option").html("");
 				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
-
 				for (var i = 0; i < arrBuildings.length; i++) {
 					if($("#zone_option").val() == arrBuildings[i].zoneId){
 						$("#building_option").append("<option value="+arrBuildings[i].buildingId+">"+arrBuildings[i].buildingName+"</option>");
@@ -32,91 +40,27 @@ $(function() {
 				}
 				zoneChoice = $("#zone_option").val();
 			}
-			if(($("#zone_option").val()) == '2'){
-				
-				$("#building_option").html("");
-				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
 
-				for (var i = 0; i < arrBuildings.length; i++) {
-					if($("#zone_option").val() == arrBuildings[i].zoneId){
-						$("#building_option").append("<option value="+arrBuildings[i].buildingId+">"+arrBuildings[i].buildingName+"</option>");
-					}
-				}
-			}
-			if(($("#zone_option").val()) == '3'){
-				
-				$("#building_option").html("");
-				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
-
-				for (var i = 0; i < arrBuildings.length; i++) {
-					if($("#zone_option").val() == arrBuildings[i].zoneId){
-						$("#building_option").append("<option value="+arrBuildings[i].buildingId+">"+arrBuildings[i].buildingName+"</option>");
-					}
-				}
-			}
-			if(($("#zone_option").val()) == '4'){
-				
-				$("#building_option").html("");
-				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
-
-				for (var i = 0; i < arrBuildings.length; i++) {
-					if($("#zone_option").val() == arrBuildings[i].zoneId){
-						$("#building_option").append("<option value="+arrBuildings[i].buildingId+">"+arrBuildings[i].buildingName+"</option>");
-					}
-				}
-			}
-			if(($("#zone_option").val()) == '5'){
-				
-				$("#building_option").html("");
-				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
-
-				for (var i = 0; i < arrBuildings.length; i++) {
-					if($("#zone_option").val() == arrBuildings[i].zoneId){
-						$("#building_option").append("<option value="+arrBuildings[i].buildingId+">"+arrBuildings[i].buildingName+"</option>");
-					}
-				}
-			}
-			if(($("#zone_option").val()) == '6'){
-				
-				$("#building_option").html("");
-				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
-
-				for (var i = 0; i < arrBuildings.length; i++) {
-					if($("#zone_option").val() == arrBuildings[i].zoneId){
-						$("#building_option").append("<option value="+arrBuildings[i].buildingId+">"+arrBuildings[i].buildingName+"</option>");
-					}
-				}
-			}
-			if(($("#zone_option").val()) == '7'){
-				
-				$("#building_option").html("");
-				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
-
-				for (var i = 0; i < arrBuildings.length; i++) {
-					if($("#zone_option").val() == arrBuildings[i].zoneId){
-						$("#building_option").append("<option value="+arrBuildings[i].buildingId+">"+arrBuildings[i].buildingName+"</option>");
-					}
-				}
-			}
-			if(($("#zone_option").val()) == '8'){
-				
-				$("#building_option").html("");
-				$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
-
-				for (var i = 0; i < arrBuildings.length; i++) {
-					if($("#zone_option").val() == arrBuildings[i].zoneId){
-						$("#building_option").append("<option value="+(arrBuildings[i].buildingId)+">"+arrBuildings[i].buildingName+"</option>");
-					}
-				}
-			}
 		});
-});
+	});
 
 $("#building_option").on("change", function() {
 	$.getJSON(apiLinkAllFloors, function( data ) {
 		arrFloors = data["floor_list"];
+		document.getElementById("floor_option").disabled = false;
 
-		if(($("#building_option").val()) == '1'){
+		document.getElementById("ma3check").disabled = false;
+		document.getElementById("ma5check").disabled = false;
+		document.getElementById("wa").disabled = false;
+		document.getElementById("es").disabled = false;
+
+		if(($("#building_option").val()) == '0'){
+			$("#floor_option").html("");
+			$("#floor_option").append("<option value='-'>"+"-"+"</option>");
+			document.getElementById("floor_option").disabled = true;
+		} else{
+			$("#floor_option").html("");
+			$("#floor_option").append("<option value='0'>"+"All Floors"+"</option>");
 			for (var i = 0; i < arrFloors.length; i++) {
 				if($("#building_option").val() == arrFloors[i].buildingId){
 					$("#floor_option").append("<option value="+arrFloors[i].floorId+">"+arrFloors[i].floorName+"</option>");
@@ -126,4 +70,19 @@ $("#building_option").on("change", function() {
 
 	});
 });
+
+$("#floor_option").on("change", function() {
+	if(($("#floor_option").val()) == '0'){
+		document.getElementById("ma3check").disabled = false;
+		document.getElementById("ma5check").disabled = false;
+		document.getElementById("wa").disabled = false;
+		document.getElementById("es").disabled = false;
+	} else{
+		document.getElementById("ma3check").disabled = true;
+		document.getElementById("ma5check").disabled = true;
+		document.getElementById("wa").disabled = true;
+		document.getElementById("es").disabled = true;
+	}
+});
+
 });

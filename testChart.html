@@ -1,35 +1,27 @@
 <!DOCTYPE HTML>
 <html>
-
+<title> NUS Device Count</title>
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxn0YAy8BMl4osynbKH2EKbWwaGns17vw&callback=initMap" async defer></script>
 
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHxdm0rZRuR4KG1x0YVcLQ44UJyn9TozE&callback=initMap"
+	async defer></script>
 	<script type="text/javascript" src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
 	<script type="text/javascript" src="dynamicoptions.js"></script>
 	<script type="text/javascript" src="dc_chart.js"></script>
 	<script type="text/javascript" src="chartupdate.js"></script>
+	<link rel = "stylesheet" href="chartpage.css">
 
-	<script>
-	function initMap() {
-        // Create a map object and specify the DOM element for display.
-        var map = new google.maps.Map(document.getElementById('map'), {
-        	center: {lat: -34.397, lng: 150.644},
-        	scrollwheel: false,
-        	zoom: 8
-        });
-    }
 
-    </script>
 </head>
 <body>
 	<div id="chartContainer" style="height: 400px; width: 100%;">
 	</div>
 </body>
 
-<fieldset>
+<fieldset class = "options">
 	NUS >>
-	<select id="zone_option">
+		<select id="zone_option">
 			<!-- 	<option value="engine">Engineering</option>
 			<option value="arts">Arts</option> -->
 		</select>
@@ -43,15 +35,27 @@
 				<!-- <option value="COM2">COM2</option>
 				<option value="arts">Arts</option> -->
 			</select>
-			<br><br>
-			<form action="">
-				<input type="radio" name="method" value="ma3"> Moving Average (3)
-				<input type="radio" name="method" value="ma5"> Moving Average (5)
-				<input type="radio" name="method" value="wa"> Weighted Average
-				<input type="radio" name="method" value="es"> Exponential Smoothing
-			</form>
-		</fieldset>
-		<div id="map"></div>
+		
+		<br><br>
+		<form class ="inputmethod" action="">
+			<input type="radio" name="method" id="ma3check" value="ma3"> Moving Average (3)</input><t>
+			<input type="radio" name="method" id="ma5check" value="ma5"> Moving Average (5)</input>
+			<input type="radio" name="method" id="wa" value="wa"> Weighted Average</input>
+			<input type="radio" name="method" id="es" value="es"> Exponential Smoothing</input>
+		</form>
+	</fieldset>
+
+	<div id="map"></div>	
+	<script>
+	var map;
+	function initMap() {
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: {lat: -34.397, lng: 150.644},
+			zoom: 8
+		});
+	}
+	</script>
 
 
-		</html>
+
+	</html>
