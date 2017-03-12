@@ -22,23 +22,6 @@ var path = require('path');
 var router = express.Router();
 
 
-
-//
-router.get('/devicecountbuilding', function(req, res) {
-	
-
-	devicedb.serialize(function() {
-		var buildingDeviceCountList = [];
-		devicedb.all("Select rowid AS id, buildingId, buildingName, deviceCount, time, date FROM AggregateBuilding", function(err, rows) {
-			for (var i = 0; i < rows.length; i++) {
-				buildingDeviceCountList.push({id: rows[i].id, locationId: rows[i].buildingId, locationName: rows[i].buildingName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
-			}		
-			
-			res.json({counts: buildingDeviceCountList});
-		});
-	});
-});
-
 //UNIVERSITY
 router.get('/devicecountuni', function(req, res) {
 	
@@ -92,10 +75,74 @@ router.get('/forecastuniwa', function(req, res) {
 		var forecastUniWa = [];
 		devicedb.all("Select rowid AS id, uniId, uniName, wa, time, date FROM ForecastUniWa", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
-				forecastUniWa.push({id: rows[i].id, locationId: rows[i].zoneId, locationName: rows[i].zoneName, forecast: rows[i].wa, time: rows[i].time, date: rows[i].date});
+				forecastUniWa.push({id: rows[i].id, locationId: rows[i].uniId, locationName: rows[i].uniName, forecast: rows[i].wa, time: rows[i].time, date: rows[i].date});
 			}		
 			
 			res.json({forecast: forecastUniWa});
+		});
+	});
+});
+
+
+
+//BUILDING
+router.get('/devicecountbuilding', function(req, res) {
+	
+
+	devicedb.serialize(function() {
+		var buildingDeviceCountList = [];
+		devicedb.all("Select rowid AS id, buildingId, buildingName, deviceCount, time, date FROM AggregateBuilding", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				buildingDeviceCountList.push({id: rows[i].id, locationId: rows[i].buildingId, locationName: rows[i].buildingName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
+			}		
+			
+			res.json({counts: buildingDeviceCountList});
+		});
+	});
+});
+
+router.get('/forecastbuildingma3', function(req, res) {
+	
+
+	devicedb.serialize(function() {
+		var forecastBuildingMa3 = [];
+		devicedb.all("Select rowid AS id, buildingId, buildingName, ma3, time, date FROM ForecastBuildingMa3", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				forecastBuildingMa3.push({id: rows[i].id, locationId: rows[i].buildingId, locationName: rows[i].buildingName, forecast: rows[i].ma3, time: rows[i].time, date: rows[i].date});
+			}		
+			
+			res.json({forecast: forecastBuildingMa3});
+		});
+	});
+});
+
+router.get('/forecastbuildingma5', function(req, res) {
+	
+
+	devicedb.serialize(function() {
+		var forecastBuildingMa5 = [];
+		devicedb.all("Select rowid AS id, buildingId, buildingName, ma5, time, date FROM ForecastBuildingMa5", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				forecastBuildingMa5.push({id: rows[i].id, locationId: rows[i].buildingId, locationName: rows[i].buildingName, forecast: rows[i].ma5, time: rows[i].time, date: rows[i].date});
+			}		
+			
+			res.json({forecast: forecastBuildingMa5});
+		});
+	});
+});
+
+
+router.get('/forecastbuildingwa', function(req, res) {
+	
+
+	devicedb.serialize(function() {
+		var forecastBuildingWa = [];
+		devicedb.all("Select rowid AS id, buildingId, buildingName, wa, time, date FROM ForecastBuildingWa", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				forecastBuildingWa.push({id: rows[i].id, locationId: rows[i].buildingId, locationName: rows[i].buildingName, forecast: rows[i].wa, time: rows[i].time, date: rows[i].date});
+			}		
+			
+			res.json({forecast: forecastBuildingWa});
 		});
 	});
 });
@@ -160,6 +207,8 @@ router.get('/forecastzonewa', function(req, res) {
 		});
 	});
 });
+
+
 
 //ZBF
 router.get('/getallzones', function(req, res) {

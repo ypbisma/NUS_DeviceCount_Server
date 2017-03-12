@@ -63,7 +63,7 @@ $(function() {
 
 
 var apiLink
-	var updateInterval = 5000;//3 minutes
+var updateInterval = 3000;
 	// initial value
 	var yValue1 = 640; 
 	var yValue2 = 604;
@@ -72,17 +72,29 @@ var apiLink
 	latestTime.setHours(0,0,0,0);
 
 
-	var updateActual = function (locationId) {
+	var updateActual = function () {
 		var arrActual = []
-		if(locationId == '0'){
+		var locationId;
+		if($("#zone_option").val() == '0'){
 			apiLinkActual = "http://localhost:9090/nusdcapi/devicecountuni";
 			locationId = '1';
 		} else{
-			apiLinkActual = "http://localhost:9090/nusdcapi/devicecountzone";
+			if($("#building_option").val() == '0'){
+				apiLinkActual = "http://localhost:9090/nusdcapi/devicecountzone";
+				locationId = $("#zone_option").val();
+			} else{
+				if($("#floor_option").val() == '0'){
+					apiLinkActual = "http://localhost:9090/nusdcapi/devicecountbuilding";	
+					locationId = $("#building_option").val();	
+				} else{
+					apiLinkActual = "http://localhost:9090/nusdcapi/devicecountfloor";	
+					locationId = $("#floor_option").val();	
+				}
+				
+			}
+			
 		}
 		
-		apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonema3"
-
 		$.getJSON(apiLinkActual, function( data ) {
 			console.log("Data:"); 
 			console.log(data);
@@ -124,29 +136,61 @@ var apiLink
 
 var updateForecast = function (locationId) {	
 	var arrForecast = []
-	if(locationId == '0'){
-		switch (new Date().getDay()) {
-			case 6:
-			text = "Today is Saturday";
+	var locationId;
+
+	if($("#zone_option").val() == '0'){
+		switch ($("input[name='method']:checked").val()) {
+			case 'ma3':
+			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima3";
 			break; 
-			case 0:
-			text = "Today is Sunday";
+			case 'ma5':
+			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima5";
 			break; 
+			case 'wa':
+			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastuniwa";
+			case 'es':
+			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunies";
 			default: 
-			text = "Looking forward to the Weekend";
+			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima3";
 		}
-		apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima3";
+		console.log(apiLinkForecast);
 		locationId = '1';
 	} else{
-		var methodRadio = document.forms[0].elements["method"];
-		for(var i = 0; i < methodRadio.length; i++)
-		{
-			if(methodRadio[i].checked){
-				console.log(methodRadio[i].value);
+		if($("#building_option").val() == '0'){
+			switch ($("input[name='method']:checked").val()) {
+				case 'ma3':
+				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonema3";
+				break; 
+				case 'ma5':
+				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonema5";
+				break; 
+				case 'wa':
+				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonewa";
+				case 'es':
+				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonees";
+				default: 
+				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonema3";
 			}
+			locationId = $("#zone_option").val();
+		} else {
+			switch ($("input[name='method']:checked").val()) {
+				case 'ma3':
+				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastbuildingma3";
+				break; 
+				case 'ma5':
+				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastbuildingma5";
+				break; 
+				case 'wa':
+				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastbuildingwa";
+				case 'es':
+				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastbuildinges";
+				default: 
+				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastbuildingma3";
+			}
+			locationId = $("#building_option").val();
 		}
-		apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonema3";
 	}
+
 
 	$.getJSON(apiLinkForecast, function( data ) {
 		arrForecast = data["forecast"];
@@ -189,12 +233,19 @@ var updateForecast = function (locationId) {
 	// generates first set of dataPoints 
 
 	$("#zone_option").on("change", function() {
-		updateActual($("#zone_option").val());	
+		updateActual();	
 		updateForecast($("#zone_option").val());
 	});
 
+	$(document).on("change","input[type=radio]",function(){
+		updateActual();	
+		updateForecast($("#zone_option").val());
+	});
+
+
 	// update chart after specified interval 
-	setInterval(function(){updateActual($("#zone_option").val())}, updateInterval);
+	setInterval(function(){updateActual()}, updateInterval);
 	setInterval(function(){updateForecast($("#zone_option").val())}, updateInterval);
 });
+
 
