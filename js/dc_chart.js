@@ -63,7 +63,7 @@ $(function() {
 
 
 var apiLink
-var updateInterval = 3000;
+var updateInterval = 180000;
 	// initial value
 	var yValue1 = 640; 
 	var yValue2 = 604;
@@ -96,9 +96,6 @@ var updateInterval = 3000;
 		}
 		
 		$.getJSON(apiLinkActual, function( data ) {
-			console.log("Data:"); 
-			console.log(data);
-			console.log(chart.options.data[0].dataPoints);
 			chart.options.data[0].dataPoints = [];
 
 			arrActual = data["counts"];
@@ -134,7 +131,7 @@ var updateInterval = 3000;
 		});
 };
 
-var updateForecast = function (locationId) {	
+var updateForecast = function () {	
 	var arrForecast = []
 	var locationId;
 
@@ -231,21 +228,28 @@ var updateForecast = function (locationId) {
 };
 
 	// generates first set of dataPoints 
+	updateActual();	
+	updateForecast();
 
 	$("#zone_option").on("change", function() {
 		updateActual();	
-		updateForecast($("#zone_option").val());
+		updateForecast();
+	});
+
+	$("#building_option").on("change", function() {
+		updateActual();	
+		updateForecast();
 	});
 
 	$(document).on("change","input[type=radio]",function(){
 		updateActual();	
-		updateForecast($("#zone_option").val());
+		updateForecast();
 	});
 
 
 	// update chart after specified interval 
 	setInterval(function(){updateActual()}, updateInterval);
-	setInterval(function(){updateForecast($("#zone_option").val())}, updateInterval);
+	setInterval(function(){updateForecast()}, updateInterval);
 });
 
 
