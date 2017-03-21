@@ -102,10 +102,17 @@ var updateInterval = 180000;
 			for (var i = 0; i < arrActual.length; i++) {
 				
 				var timeArr = arrActual[i].time.split(":");
+				var dateArr = arrActual[i].date.split("-");
+				console.log(dateArr[0]);
+				console.log(dateArr[1]);
+				console.log(dateArr[2]);
 				var time = new Date;
 				time.setHours(timeArr[0]);
 				time.setMinutes(timeArr[1]);
 				time.setSeconds(timeArr[2]);
+				time.setDate(dateArr[0]);
+				time.setMonth(dateArr[1]-1);
+				time.setYear(dateArr[2]);
 
 				// if(time > latestTime) {
 					if(arrActual[i].locationId == locationId){
@@ -196,10 +203,15 @@ var updateForecast = function () {
 
 		for (var j = 0; j < arrForecast.length; j++) {
 			var timeArr = arrForecast[j].time.split(":");
+			var dateArr = arrForecast[j].date.split("-");
 			var time = new Date;
 			time.setHours(timeArr[0]);
 			time.setMinutes(timeArr[1]);
 			time.setSeconds(timeArr[2]);
+			time.setDate(dateArr[0]);
+			time.setMonth(dateArr[1]-1);
+			time.setYear(dateArr[2]);
+
 			time.setMinutes(time.getMinutes() + 5);
 			if(arrForecast[j].forecast != '0.0') {
 				if(arrForecast[j].locationId == locationId){
@@ -218,6 +230,8 @@ var updateForecast = function () {
 		latestTime.setHours(timeArr[0]);
 		latestTime.setMinutes(timeArr[1]);
 		latestTime.setSeconds(timeArr[2]);
+
+
 			// updating legend text with  updated with y Value 
 			chart.options.data[0].legendText = " Device Count NUS";
 			chart.options.data[1].legendText = " Forecast"; 
@@ -226,10 +240,6 @@ var updateForecast = function () {
 
 		});
 };
-
-	// generates first set of dataPoints 
-	updateActual();	
-	updateForecast();
 
 	$("#zone_option").on("change", function() {
 		updateActual();	
@@ -250,6 +260,11 @@ var updateForecast = function () {
 	// update chart after specified interval 
 	setInterval(function(){updateActual()}, updateInterval);
 	setInterval(function(){updateForecast()}, updateInterval);
+
+	// generates first set of dataPoints 
+	updateActual();	
+	updateForecast();
+
 });
 
 

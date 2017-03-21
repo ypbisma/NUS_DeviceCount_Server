@@ -263,6 +263,10 @@ router.get('/testchart', function(req, res) {
     res.sendFile(path.join(__dirname + '/testChart.html'));
 });
 
+router.get('/map', function(req, res) {
+    res.sendFile(path.join(__dirname + '/map.html'));
+});
+
 router.get('/dc_chart.js', function(req, res) {
 	res.sendFile(path.join(__dirname + '/js/dc_chart.js'));
 })
@@ -275,9 +279,28 @@ router.get('/chartupdate.js', function(req, res) {
 	res.sendFile(path.join(__dirname + '/js/chartupdate.js'));
 })
 
+router.get('/map.js', function(req, res) {
+	res.sendFile(path.join(__dirname + '/js/map.js'));
+})
+
+router.get('/gmaps.js', function(req, res) {
+	res.sendFile(path.join(__dirname + '/js/heatmap.js-master/plugins/gmaps-heatmap/gmaps-heatmap.js'));
+})
+
+router.get('/heatmap.js', function(req, res) {
+	res.sendFile(path.join(__dirname + '/js/heatmap.js-master/build/heatmap.js'));
+})
+
+router.get('/mapsample.js', function(req, res) {
+	res.sendFile(path.join(__dirname + '/js/mapsample.js'));
+})
+
+
 router.get('/chartpage.css', function(req, res) {
 	res.sendFile(path.join(__dirname + '/css/chartpage.css'));
 })
+
+
 //Register Our Routes
 //all of our routes will be prefixed with /api
 app.use('/nusdcapi', router);
