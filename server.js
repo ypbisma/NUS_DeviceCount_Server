@@ -29,10 +29,11 @@ router.get('/devicecountuni', function(req, res) {
 	devicedb.serialize(function() {
 		var uniDeviceCountList = [];
 		devicedb.all("Select rowid AS id, uniId, uniName, deviceCount, time, date FROM AggregateUniversity", function(err, rows) {
-			for (var i = 0; i < rows.length; i++) {
-				uniDeviceCountList.push({id: rows[i].id, locationId: rows[i].uniId, locationName: rows[i].uniName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
-			}		
-			
+			if(rows != undefined){
+				for (var i = 0; i < rows.length; i++) {
+					uniDeviceCountList.push({id: rows[i].id, locationId: rows[i].uniId, locationName: rows[i].uniName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
+				}	
+			}
 			res.json({counts: uniDeviceCountList});
 		});
 	});
@@ -262,7 +263,7 @@ router.get('/getallfloors', function(req, res) {
 		var floorList = [];
 		zbfdb.all("Select rowid AS id, floorId, floorName, buildingId FROM Floor", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
-				floorList.push({id: rows[i].id, locationId: rows[i].id, locationName: rows[i].floorName, buildingId: rows[i].buildingId});
+				floorList.push({id: rows[i].id, locationId: rows[i].floorId, locationName: rows[i].floorName, buildingId: rows[i].buildingId});
 			}		
 			
 			res.json({floor_list: floorList});

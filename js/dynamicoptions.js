@@ -4,6 +4,7 @@ $(function() {
 	apiLinkAllZones = "http://localhost:9090/nusdcapi/getallzones";
 	var zoneChoice;
 	document.getElementById("ma3check").checked = true;
+	
 
 
 	$.getJSON(apiLinkAllZones, function( data ) {
@@ -85,6 +86,7 @@ $("#floor_option").on("change", function() {
 		document.getElementById("wa").disabled = false;
 		document.getElementById("es").disabled = false;
 	} else{
+		console.log($("#floor_option").val());
 		document.getElementById("ma3check").disabled = true;
 		document.getElementById("ma5check").disabled = true;
 		document.getElementById("wa").disabled = true;

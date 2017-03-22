@@ -12,11 +12,19 @@ $(function() {
 		theme: "theme3",
 		zoomType: "xy",
 		title: {
-			text: "Device Count - NUS",
+			text: "Device Count ",
 			fontSize: "30",
 			fontFamily: "verdana",
 			fontColor: "#FCFCFB",
 		},
+		subtitles:[
+		{
+			text: "Location Name",
+			fontFamily: "verdana",
+			fontColor: "#FCFCFB",
+			fontSize: 20,
+		}
+		],
 		toolTip: {
 			shared: false,
 			backgroundColor: "#3A3C4A",
@@ -120,6 +128,7 @@ $(function() {
 				chart.render();
 			}
 		}
+
 	});
 
 
@@ -137,9 +146,11 @@ var updateInterval = 180000;
 	var updateActual = function () {
 		var arrActual = []
 		var locationId;
+
 		chart.options.data[1].visible = true;
 
-		if($("#zone_option").val() == '0'){
+		console.log($("#zone_option").val());
+		if($("#zone_option").val() == '0' || $("#zone_option").val()==null){
 			apiLinkActual = "http://localhost:9090/nusdcapi/devicecountuni";
 			locationId = '1';
 		} else{
@@ -161,7 +172,7 @@ var updateInterval = 180000;
 			}
 			
 		}
-		
+
 		$.getJSON(apiLinkActual, function( data ) {
 			chart.options.data[0].dataPoints = [];
 			chart.options.data[2].dataPoints = [];
@@ -182,7 +193,8 @@ var updateInterval = 180000;
 				time.setYear(dateArr[2]);
 				// if(time > latestTime) {
 					if(arrActual[i].locationId == locationId){
-						console.log(locationId)
+						chart.options.subtitles[0].text = arrActual[i].locationName;
+
 						chart.options.data[0].dataPoints.push({
 						// dataPointsActual.push({
 							x: time,
@@ -213,8 +225,10 @@ var updateForecast = function () {
 	var arrForecast = []
 	var locationId;
 	chart.options.data[1].visible = true;
+	console.log($("#zone_option").val());
+	console.log($("input[name='method']:checked").val());
 
-	if($("#zone_option").val() == '0'){
+	if($("#zone_option").val() == '0' || $("#zone_option").val()==null){
 		switch ($("input[name='method']:checked").val()) {
 			case 'ma3':
 			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima3";
@@ -227,7 +241,7 @@ var updateForecast = function () {
 			case 'es':
 			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunies";
 			default: 
-			apiLinkForecast = null;
+			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima3";
 		}
 		locationId = '1';
 	} else{
@@ -244,7 +258,7 @@ var updateForecast = function () {
 				case 'es':
 				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonees";
 				default: 
-				apiLinkForecast = null;
+				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonema3";
 			}
 			locationId = $("#zone_option").val();
 		} else {
@@ -260,7 +274,7 @@ var updateForecast = function () {
 				case 'es':
 				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastbuildinges";
 				default: 
-				apiLinkForecast = null;
+				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastbuildingma3";
 			}
 			locationId = $("#building_option").val();
 		}
@@ -343,14 +357,16 @@ $(document).on("change","input[type=radio]",function(){
 	updateForecast();
 });
 
-
+	// generates first set of dataPoints 
+	updateActual();
+	console.log("updateActual called");
+	updateForecast();
+	console.log("updateForecast called");
 	// update chart after specified interval 
 	setInterval(function(){updateActual()}, updateInterval);
 	setInterval(function(){updateForecast()}, updateInterval);
 
-	// generates first set of dataPoints 
-	updateActual();	
-	updateForecast();
+
 
 });
 

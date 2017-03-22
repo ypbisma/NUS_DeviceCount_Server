@@ -86,6 +86,7 @@
         var EnginAdmCount;
         $.getJSON(apiLinkActual, function( data ) {
           arrActual = data["counts"];
+          console.log(arrActual);
           for (var i = 0; i < arrActual.length; i++) {
             if(arrActual[i].locationName == "KR-ENGADM"){
               EnginAdmCountString = arrActual[i].deviceCount;
@@ -93,19 +94,21 @@
           }
           EnginAdmCount = parseInt(EnginAdmCountString);
           console.log(EnginAdmCount);
-        }); 
-        
-        
-        var testData = {
-          max: 700,
+
+             var testData = {
+          max: 1800,
           data: [
-          {lat: 1.3003, lng:103.7708, count: 700},//Engineering Faculty
+          {lat: 1.3003, lng:103.7708, count: EnginAdmCount},//Engineering Faculty
           {lat: 1.29417, lng:103.77389, count: 200},//Business school
           {lat: 1.3046, lng:103.7723, count:600}, //UTown
           ]
         };
-        testData.data.push({last:1.3047, lng:103.78, count:EnginAdmCount});
+        // testData.data.push({last:1.3047, lng:103.78, count:EnginAdmCount});
         heatmap.setData(testData);
+        }); 
+        
+        
+     
       }
       getPoints();
 
