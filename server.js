@@ -208,6 +208,20 @@ router.get('/forecastzonewa', function(req, res) {
 	});
 });
 
+//FLOOR
+router.get('/devicecountfloor', function(req, res) {
+
+	devicedb.serialize(function() {
+		var floorDeviceCountList = [];
+		devicedb.all("Select rowid AS id, floorId, floorName, deviceCount, time, date FROM AggregateFloor", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				floorDeviceCountList.push({id: rows[i].id, locationId: rows[i].floorId, locationName: rows[i].floorName, deviceCount: rows[i].deviceCount, time: rows[i].time, date: rows[i].date});
+			}		
+			
+			res.json({counts: floorDeviceCountList});
+		});
+	});
+});
 
 
 //ZBF
@@ -248,13 +262,17 @@ router.get('/getallfloors', function(req, res) {
 		var floorList = [];
 		zbfdb.all("Select rowid AS id, floorId, floorName, buildingId FROM Floor", function(err, rows) {
 			for (var i = 0; i < rows.length; i++) {
-				floorList.push({id: rows[i].id, locationId: rows[i].floorId, locationName: rows[i].floorName, buildingId: rows[i].buildingId});
+				floorList.push({id: rows[i].id, locationId: rows[i].id, locationName: rows[i].floorName, buildingId: rows[i].buildingId});
 			}		
 			
 			res.json({floor_list: floorList});
 		});
 	});
 });
+
+
+
+
 
 //FILES
 

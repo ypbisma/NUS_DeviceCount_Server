@@ -89,7 +89,7 @@ var updateInterval = 180000;
 					locationId = $("#building_option").val();	
 				} else{
 					apiLinkActual = "http://localhost:9090/nusdcapi/devicecountfloor";	
-					locationId = $("#floor_option").val();	
+					locationId = $("#floor_option").val();
 				}
 				
 			}
@@ -100,8 +100,9 @@ var updateInterval = 180000;
 			chart.options.data[0].dataPoints = [];
 
 			arrActual = data["counts"];
+
+
 			for (var i = 0; i < arrActual.length; i++) {
-				
 				var timeArr = arrActual[i].time.split(":");
 				var dateArr = arrActual[i].date.split("-");
 
@@ -112,14 +113,15 @@ var updateInterval = 180000;
 				time.setDate(dateArr[0]);
 				time.setMonth(dateArr[1]-1);
 				time.setYear(dateArr[2]);
-				console.log(time);
 				// if(time > latestTime) {
 					if(arrActual[i].locationId == locationId){
+						console.log(locationId)
 						chart.options.data[0].dataPoints.push({
 						// dataPoints1.push({
 							x: time,
 							y: parseFloat(arrActual[i].deviceCount)
 						});
+
 					} // change push to element access
 				// }
 
@@ -156,7 +158,6 @@ var updateForecast = function () {
 			default: 
 			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima3";
 		}
-		console.log(apiLinkForecast);
 		locationId = '1';
 	} else{
 		if($("#building_option").val() == '0'){
@@ -246,6 +247,11 @@ var updateForecast = function () {
 	});
 
 	$("#building_option").on("change", function() {
+		updateActual();	
+		updateForecast();
+	});
+
+	$("#floor_option").on("change", function() {
 		updateActual();	
 		updateForecast();
 	});

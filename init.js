@@ -52,7 +52,7 @@ deviceCountDbCreate.serialize(function() {
 
 zbfListDbCreate.serialize(function() {
 	if(!listExist){
-		zbfListDbCreate.run("CREATE TABLE ZoneBuildingFloor (zone TEXT, building TEXT, floor TEXT)");
+		zbfListDbCreate.run("CREATE TABLE ZoneBuildingFloor (floorId TEXT, zone TEXT, building TEXT, floor TEXT)");
 		zbfListDbCreate.run("CREATE TABLE Zone (zoneId TEXT, zoneName TEXT)");
 		zbfListDbCreate.run("CREATE TABLE Building (buildingId TEXT, buildingName TEXT, zoneId TEXT)");
 		zbfListDbCreate.run("CREATE TABLE Floor (floorId TEXT, floorName TEXT, buildingId TEXT)");
