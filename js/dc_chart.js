@@ -62,7 +62,8 @@ $(function() {
 	});
 
 
-var apiLink
+var apiLinkActual;
+var apiLinkForecast;
 var updateInterval = 180000;
 	// initial value
 	var yValue1 = 640; 
@@ -103,9 +104,7 @@ var updateInterval = 180000;
 				
 				var timeArr = arrActual[i].time.split(":");
 				var dateArr = arrActual[i].date.split("-");
-				console.log(dateArr[0]);
-				console.log(dateArr[1]);
-				console.log(dateArr[2]);
+
 				var time = new Date;
 				time.setHours(timeArr[0]);
 				time.setMinutes(timeArr[1]);
@@ -113,7 +112,7 @@ var updateInterval = 180000;
 				time.setDate(dateArr[0]);
 				time.setMonth(dateArr[1]-1);
 				time.setYear(dateArr[2]);
-
+				console.log(time);
 				// if(time > latestTime) {
 					if(arrActual[i].locationId == locationId){
 						chart.options.data[0].dataPoints.push({
