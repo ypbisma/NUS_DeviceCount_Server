@@ -4,7 +4,8 @@ html, body {
 	margin: 0;
 	padding: 0;
 	font-family:helvetica;
-	font-size: 14px;	
+	font-size: 14px;
+	background-color: "#5D6D7E";	
 }
 
 .options select{
@@ -12,6 +13,7 @@ html, body {
 	font-size: 12px;
 	width: 120px;
 	text-align: center;
+	background-color: "#5D6D7E";	
 }
 
 .inputmethod {
@@ -24,6 +26,15 @@ html, body {
     width: 90%;	
 }
 
+.chart {
+	height:600px; 
+	width: 100%;
+}
+
+.bar{
+	height:300px; 
+	width:100%;
+}
 
 
 

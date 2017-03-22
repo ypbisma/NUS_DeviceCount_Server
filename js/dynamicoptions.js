@@ -34,6 +34,12 @@ $("#zone_option").on("change", function() {
 		} else{
 			$("#building_option").html("");
 			$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
+			$("#floor_option").html("");
+			$("#floor_option").append("<option value='-'>"+"-"+"</option>");
+			document.getElementById("ma3check").disabled = false;
+			document.getElementById("ma5check").disabled = false;
+			document.getElementById("wa").disabled = false;
+			document.getElementById("es").disabled = false;
 			for (var i = 0; i < arrBuildings.length; i++) {
 				if($("#zone_option").val() == arrBuildings[i].zoneId){
 					$("#building_option").append("<option value="+arrBuildings[i].locationId+">"+arrBuildings[i].locationName+"</option>");

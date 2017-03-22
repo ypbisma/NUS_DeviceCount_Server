@@ -1,43 +1,72 @@
 $(function() {
 
 	// dataPoints
-	var dataPoints1 = [];
-	var dataPoints2 = [];
+	var dataPointsActual = [];
+	var dataPointsForecast = [];
+	var dataPointsActualArea = [];
 
 	var chart = new CanvasJS.Chart("chartContainer",{
+		animationEnabled: true,
 		zoomEnabled: true,
+		backgroundColor: "#3A3C4A",
+		theme: "theme3",
+		zoomType: "xy",
 		title: {
-			text: "Device Count - NUS"
+			text: "Device Count - NUS",
+			fontSize: "30",
+			fontFamily: "verdana",
+			fontColor: "#FCFCFB",
 		},
 		toolTip: {
-			shared: true
-			
-		},
-		legend: {
-			verticalAlign: "top",
-			horizontalAlign: "center",
-			fontSize: 14,
-			fontWeight: "bold",
+			shared: false,
+			backgroundColor: "#3A3C4A",
 			fontFamily: "arial",
-			fontColor: "dimGrey"
+			fontColor: "#FCFCFB",
+			contentFormatter: function(e){
+				var content = " ";
+				for (var i = 0; i < e.entries.length; i++) {
+					content += e.entries[i].dataSeries.name + " " + "<strong>" + e.entries[i].dataPoint.y + "</strong>";
+					content += "<br/>";
+				}
+				return content;
+			}
 		},
 		axisX: {
-			title: "chart updates every 10 minutes",
-			titleFontFamily: "arial",
-			titleFontSize: 14
+			title: "time",
+			titleFontFamily: "lucida sans",
+			titleFontSize: 19,
+			titleFontColor: "#F6F8F8",
+			labelFontColor: "#F6F8F8",
+			labelFontSize: 14,
+			tickLength: 10,
+			gridColor:"#5D6D7E",
+			gridDashType: "dot",
+			gridThickness: 2,
 		},
 		axisY:{	
 			includeZero: false,
-			titleFontFamily: "arial",
-			// minimum: 1500,
+			titleFontFamily: "lucida sans",
+			titleFontSize: 19,
+			title: "device count",
+			titleFontColor: "#F6F8F8",
+			labelFontColor: "#F6F8F8",
+			labelFontSize: 16,
+			tickLength: 10,
+			gridColor:"#5D6D7E",
+			gridDashType: "dot",
+			gridThickness: 2,
 		}, 
 		data: [{ 
 			// dataSeries1
 			type: "line",
 			xValueType: "dateTime",
 			showInLegend: true,
-			name: "Device Count",
-			dataPoints: dataPoints1
+			name: "Actual",
+			dataPoints: dataPointsActual,
+			color: "#22E0F7",
+			markerSize: 8,
+			connectNullData:true,
+			showInLegend: true,
 		},
 		{				
 			// dataSeries2
@@ -45,9 +74,41 @@ $(function() {
 			xValueType: "dateTime",
 			showInLegend: true,
 			name: "Forecast" ,
-			dataPoints: dataPoints2
+			dataPoints: dataPointsForecast,
+			color: "#EC7063",
+			markerSize: 8,
+			showInLegend: true,
+		},
+		{ 
+			// dataSeries1
+			type: "area",
+			xValueType: "dateTime",
+			showInLegend: true,
+			name: "Actual - Area",
+			dataPoints: dataPointsActualArea,
+			color: "#22E0F7",
+			markerSize: 8,
+			visible: false,
+			connectNullData:true,
+			fillOpacity: .5,
+		},
+		{				
+			type: "area",
+			xValueType: "dateTime",
+			showInLegend: true,
+			name: "Forecast - Area" ,
+			dataPoints: dataPointsForecast,
+			color: "#EC7063",
+			markerSize: 8,
+			visible: false,
+			connectNullData:true,
+			fillOpacity: .5,
 		}],
 		legend:{
+			fontSize: 16,
+			fontFamily: "lucida sans",
+
+			fontColor: "#FCFCFB",
 			cursor:"pointer",
 			itemclick : function(e) {
 				if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
@@ -76,6 +137,8 @@ var updateInterval = 180000;
 	var updateActual = function () {
 		var arrActual = []
 		var locationId;
+		chart.options.data[1].visible = true;
+
 		if($("#zone_option").val() == '0'){
 			apiLinkActual = "http://localhost:9090/nusdcapi/devicecountuni";
 			locationId = '1';
@@ -90,6 +153,9 @@ var updateInterval = 180000;
 				} else{
 					apiLinkActual = "http://localhost:9090/nusdcapi/devicecountfloor";	
 					locationId = $("#floor_option").val();
+					if($("#floor_option").val() != '0'){
+						chart.options.data[1].visible = false;
+					}
 				}
 				
 			}
@@ -98,6 +164,7 @@ var updateInterval = 180000;
 		
 		$.getJSON(apiLinkActual, function( data ) {
 			chart.options.data[0].dataPoints = [];
+			chart.options.data[2].dataPoints = [];
 
 			arrActual = data["counts"];
 
@@ -117,11 +184,14 @@ var updateInterval = 180000;
 					if(arrActual[i].locationId == locationId){
 						console.log(locationId)
 						chart.options.data[0].dataPoints.push({
-						// dataPoints1.push({
+						// dataPointsActual.push({
 							x: time,
 							y: parseFloat(arrActual[i].deviceCount)
 						});
-
+						chart.options.data[2].dataPoints.push({
+							x: time,
+							y: parseFloat(arrActual[i].deviceCount)
+						});
 					} // change push to element access
 				// }
 
@@ -132,7 +202,7 @@ var updateInterval = 180000;
 			latestTime.setMinutes(timeArr[1]);
 			latestTime.setSeconds(timeArr[2]);
 			// updating legend text with  updated with y Value 
-			chart.options.data[0].legendText = " Device Count NUS";
+			chart.options.data[0].legendText = " Actual";
 			chart.options.data[1].legendText = " Forecast"; 
 
 			chart.render();
@@ -142,6 +212,7 @@ var updateInterval = 180000;
 var updateForecast = function () {	
 	var arrForecast = []
 	var locationId;
+	chart.options.data[1].visible = true;
 
 	if($("#zone_option").val() == '0'){
 		switch ($("input[name='method']:checked").val()) {
@@ -156,7 +227,7 @@ var updateForecast = function () {
 			case 'es':
 			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunies";
 			default: 
-			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima3";
+			apiLinkForecast = null;
 		}
 		locationId = '1';
 	} else{
@@ -173,7 +244,7 @@ var updateForecast = function () {
 				case 'es':
 				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonees";
 				default: 
-				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonema3";
+				apiLinkForecast = null;
 			}
 			locationId = $("#zone_option").val();
 		} else {
@@ -189,7 +260,7 @@ var updateForecast = function () {
 				case 'es':
 				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastbuildinges";
 				default: 
-				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastbuildingma3";
+				apiLinkForecast = null;
 			}
 			locationId = $("#building_option").val();
 		}
@@ -199,6 +270,8 @@ var updateForecast = function () {
 	$.getJSON(apiLinkForecast, function( data ) {
 		arrForecast = data["forecast"];
 		chart.options.data[1].dataPoints = [];
+		chart.options.data[3].dataPoints = [];
+
 
 
 		for (var j = 0; j < arrForecast.length; j++) {
@@ -216,7 +289,12 @@ var updateForecast = function () {
 			if(arrForecast[j].forecast != '0.0') {
 				if(arrForecast[j].locationId == locationId){
 					chart.options.data[1].dataPoints.push({
-						// dataPoints2.push({
+						// dataPointsForecast.push({
+							x: time,
+							y: parseFloat(arrForecast[j].forecast)
+						});
+					chart.options.data[3].dataPoints.push({
+						// dataPointsForecast.push({
 							x: time,
 							y: parseFloat(arrForecast[j].forecast)
 						});
@@ -233,33 +311,37 @@ var updateForecast = function () {
 
 
 			// updating legend text with  updated with y Value 
-			chart.options.data[0].legendText = " Device Count NUS";
+			chart.options.data[0].legendText = " Actual";
 			chart.options.data[1].legendText = " Forecast"; 
 
 			chart.render();
 
 		});
+
 };
 
-	$("#zone_option").on("change", function() {
-		updateActual();	
-		updateForecast();
-	});
+$("#zone_option").on("change", function() {
+	updateActual();	
+	updateForecast();
+});
 
-	$("#building_option").on("change", function() {
-		updateActual();	
-		updateForecast();
-	});
+$("#building_option").on("change", function() {
+	updateActual();	
+	updateForecast();
+});
 
-	$("#floor_option").on("change", function() {
-		updateActual();	
-		updateForecast();
-	});
+$("#floor_option").on("change", function() {
+	updateActual();	
+	updateForecast();
+	if($("#floor_option").val()!=0){
+		chart.options.data[1].visible = false;	
+	}
+});
 
-	$(document).on("change","input[type=radio]",function(){
-		updateActual();	
-		updateForecast();
-	});
+$(document).on("change","input[type=radio]",function(){
+	updateActual();	
+	updateForecast();
+});
 
 
 	// update chart after specified interval 
