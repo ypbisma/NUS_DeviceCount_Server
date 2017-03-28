@@ -26,9 +26,9 @@ $("#zone_option").on("change", function() {
 
 		if(($("#zone_option").val()) == '0'){
 			$("#building_option").html("");
-			$("#building_option").append("<option value='-'>"+"-"+"</option>");
+			$("#building_option").append("<option value='0'>"+"-"+"</option>");
 			$("#floor_option").html("");
-			$("#floor_option").append("<option value='-'>"+"-"+"</option>");
+			$("#floor_option").append("<option value='0'>"+"-"+"</option>");
 			document.getElementById("building_option").disabled = true;
 			document.getElementById("floor_option").disabled = true;
 			zoneChoice = $("#zone_option").val();
@@ -36,7 +36,7 @@ $("#zone_option").on("change", function() {
 			$("#building_option").html("");
 			$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
 			$("#floor_option").html("");
-			$("#floor_option").append("<option value='-'>"+"-"+"</option>");
+			$("#floor_option").append("<option value='0'>"+"-"+"</option>");
 			document.getElementById("ma3check").disabled = false;
 			document.getElementById("ma5check").disabled = false;
 			document.getElementById("wa").disabled = false;
@@ -64,7 +64,7 @@ $("#building_option").on("change", function() {
 
 		if(($("#building_option").val()) == '0'){
 			$("#floor_option").html("");
-			$("#floor_option").append("<option value='-'>"+"-"+"</option>");
+			$("#floor_option").append("<option value='0'>"+"-"+"</option>");
 			document.getElementById("floor_option").disabled = true;
 		} else{
 			$("#floor_option").html("");

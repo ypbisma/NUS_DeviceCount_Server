@@ -154,16 +154,21 @@ var updateInterval = 180000;
 			apiLinkActual = "http://localhost:9090/nusdcapi/devicecountuni";
 			locationId = '1';
 		} else{
-			if($("#building_option").val() == '0'){
+			if($("#building_option").val() == '0' || $("#building_option").val()==null){
 				apiLinkActual = "http://localhost:9090/nusdcapi/devicecountzone";
 				locationId = $("#zone_option").val();
 			} else{
+			
 				if($("#floor_option").val() == '0'){
 					apiLinkActual = "http://localhost:9090/nusdcapi/devicecountbuilding";	
 					locationId = $("#building_option").val();	
+					console.log("Zone: " + $("#zone_option").val());
+					console.log("Building: " + $("#building_option").val());
+					console.log("Floor: " + $("#floor_option").val());
 				} else{
 					apiLinkActual = "http://localhost:9090/nusdcapi/devicecountfloor";	
 					locationId = $("#floor_option").val();
+
 					if($("#floor_option").val() != '0'){
 						chart.options.data[1].visible = false;
 					}
@@ -176,7 +181,7 @@ var updateInterval = 180000;
 		$.getJSON(apiLinkActual, function( data ) {
 			chart.options.data[0].dataPoints = [];
 			chart.options.data[2].dataPoints = [];
-
+			console.log(data);
 			arrActual = data["counts"];
 
 
@@ -230,16 +235,18 @@ var updateForecast = function () {
 
 	if($("#zone_option").val() == '0' || $("#zone_option").val()==null){
 		switch ($("input[name='method']:checked").val()) {
-			case 'ma3':
+			case "ma3":
 			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima3";
 			break; 
-			case 'ma5':
+			case "ma5":
 			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima5";
 			break; 
-			case 'wa':
+			case "wa":
 			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastuniwa";
-			case 'es':
+			break;
+			case "es":
 			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunies";
+			break;
 			default: 
 			apiLinkForecast = "http://localhost:9090/nusdcapi/forecastunima3";
 		}
@@ -255,8 +262,10 @@ var updateForecast = function () {
 				break; 
 				case 'wa':
 				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonewa";
+				break;
 				case 'es':
 				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonees";
+				break;
 				default: 
 				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonema3";
 			}
@@ -271,8 +280,10 @@ var updateForecast = function () {
 				break; 
 				case 'wa':
 				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastbuildingwa";
+				break;
 				case 'es':
 				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastbuildinges";
+				break;
 				default: 
 				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastbuildingma3";
 			}
@@ -359,9 +370,7 @@ $(document).on("change","input[type=radio]",function(){
 
 	// generates first set of dataPoints 
 	updateActual();
-	console.log("updateActual called");
 	updateForecast();
-	console.log("updateForecast called");
 	// update chart after specified interval 
 	setInterval(function(){updateActual()}, updateInterval);
 	setInterval(function(){updateForecast()}, updateInterval);
