@@ -252,7 +252,7 @@ var updateForecast = function () {
 		}
 		locationId = '1';
 	} else{
-		if($("#building_option").val() == '0'){
+		if($("#building_option").val() == '0' || $("#building_option").val()==null){
 			switch ($("input[name='method']:checked").val()) {
 				case 'ma3':
 				apiLinkForecast = "http://localhost:9090/nusdcapi/forecastzonema3";
