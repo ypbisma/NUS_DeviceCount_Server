@@ -6,6 +6,7 @@
         //NUS
 
         var NUS = new google.maps.LatLng(1.2966, 103.7764);
+        var MapCenter = new google.maps.LatLng(1.300051700629016,103.775954246521);
         //UTOWN
         var UTown = new google.maps.LatLng(1.3051, 103.7730);
         var TownPlaza = new google.maps.LatLng(1.3041115164982047,103.77345442771912);
@@ -234,8 +235,8 @@
 
         // map options,
         var myOptions = {
-          zoom: 17,
-          center: UTown
+          zoom: 16,
+          center: MapCenter
         };
 
 
@@ -315,7 +316,7 @@
         }
         console.log(dataArray);
       var testData = {
-          max: 700,
+          max: 750,
           data: dataArray
         };
 

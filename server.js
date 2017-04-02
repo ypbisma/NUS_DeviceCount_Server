@@ -84,6 +84,21 @@ router.get('/forecastuniwa', function(req, res) {
 	});
 });
 
+router.get('/forecastunies', function(req, res) {
+	
+
+	devicedb.serialize(function() {
+		var forecastUniEs = [];
+		devicedb.all("Select rowid AS id, uniId, uniName, es, time, date FROM ForecastUniEs", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				forecastUniEs.push({id: rows[i].id, locationId: rows[i].uniId, locationName: rows[i].uniName, forecast: rows[i].es, time: rows[i].time, date: rows[i].date});
+			}		
+			
+			res.json({forecast: forecastUniEs});
+		});
+	});
+});
+
 
 
 //BUILDING
@@ -148,6 +163,22 @@ router.get('/forecastbuildingwa', function(req, res) {
 	});
 });
 
+
+router.get('/forecastbuildinges', function(req, res) {
+	
+
+	devicedb.serialize(function() {
+		var forecastBuildingEs = [];
+		devicedb.all("Select rowid AS id, buildingId, buildingName, es, time, date FROM ForecastBuildingEs", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				forecastBuildingEs.push({id: rows[i].id, locationId: rows[i].buildingId, locationName: rows[i].buildingName, forecast: rows[i].es, time: rows[i].time, date: rows[i].date});
+			}		
+			
+			res.json({forecast: forecastBuildingEs});
+		});
+	});
+});
+
 //ZONE
 router.get('/devicecountzone', function(req, res) {
 	
@@ -208,6 +239,22 @@ router.get('/forecastzonewa', function(req, res) {
 		});
 	});
 });
+
+router.get('/forecastzonees', function(req, res) {
+	
+
+	devicedb.serialize(function() {
+		var forecastZoneEs = [];
+		devicedb.all("Select rowid AS id, zoneId, zoneName, es, time, date FROM ForecastZoneEs", function(err, rows) {
+			for (var i = 0; i < rows.length; i++) {
+				forecastZoneEs.push({id: rows[i].id, locationId: rows[i].zoneId, locationName: rows[i].zoneName, forecast: rows[i].es, time: rows[i].time, date: rows[i].date});
+			}		
+			
+			res.json({forecast: forecastZoneEs});
+		});
+	});
+});
+
 
 //FLOOR
 router.get('/devicecountfloor', function(req, res) {
@@ -278,12 +325,12 @@ router.get('/getallfloors', function(req, res) {
 //FILES
 
 
-router.get('/testchart', function(req, res) {
-    res.sendFile(path.join(__dirname + '/testChart.html'));
+router.get('/dynamicchart', function(req, res) {
+    res.sendFile(path.join(__dirname + '/dynamicchart.html'));
 });
 
-router.get('/map', function(req, res) {
-    res.sendFile(path.join(__dirname + '/map.html'));
+router.get('/heatmap', function(req, res) {
+    res.sendFile(path.join(__dirname + '/heatmap.html'));
 });
 
 router.get('/dc_chart.js', function(req, res) {

@@ -37,6 +37,7 @@ $("#zone_option").on("change", function() {
 			$("#building_option").append("<option value='0'>"+"All Buildings"+"</option>");
 			$("#floor_option").html("");
 			$("#floor_option").append("<option value='0'>"+"-"+"</option>");
+
 			document.getElementById("ma3check").disabled = false;
 			document.getElementById("ma5check").disabled = false;
 			document.getElementById("wa").disabled = false;
@@ -86,7 +87,6 @@ $("#floor_option").on("change", function() {
 		document.getElementById("wa").disabled = false;
 		document.getElementById("es").disabled = false;
 	} else{
-		console.log($("#floor_option").val());
 		document.getElementById("ma3check").disabled = true;
 		document.getElementById("ma5check").disabled = true;
 		document.getElementById("wa").disabled = true;

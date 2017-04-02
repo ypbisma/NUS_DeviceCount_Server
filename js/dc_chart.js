@@ -181,7 +181,6 @@ var updateInterval = 180000;
 		$.getJSON(apiLinkActual, function( data ) {
 			chart.options.data[0].dataPoints = [];
 			chart.options.data[2].dataPoints = [];
-			console.log(data);
 			arrActual = data["counts"];
 
 
@@ -231,6 +230,8 @@ var updateForecast = function () {
 	var locationId;
 	chart.options.data[1].visible = true;
 	console.log($("#zone_option").val());
+	console.log($("#building_option").val());
+	console.log($("#floor_option").val());
 	console.log($("input[name='method']:checked").val());
 
 	if($("#zone_option").val() == '0' || $("#zone_option").val()==null){
@@ -296,7 +297,7 @@ var updateForecast = function () {
 		arrForecast = data["forecast"];
 		chart.options.data[1].dataPoints = [];
 		chart.options.data[3].dataPoints = [];
-
+		console.log(data);
 
 
 		for (var j = 0; j < arrForecast.length; j++) {
