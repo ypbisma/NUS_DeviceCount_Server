@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <title>Googlemaps Heatmap Layer</title>
+    <title>NUSWATCH Heat Map</title>
     <style>
       html { height: 100% }
       body { height: 100%; margin: 0; padding: 0; font-family:sans-serif; }
@@ -11,17 +11,19 @@
       h1 { position:absolute; background:black; color:white; padding:10px; font-weight:200; z-index:10000;}
       #all-examples-info { position:absolute; background:white; font-size:16px; padding:20px; bottom:20px; width:350px; line-height:150%; border:1px solid rgba(0,0,0,.2);}
     </style>
+    <!-- calling Google Map API, which requires credential -->
     <script type="text/javascript" src=" https://maps.googleapis.com/maps/api/js?key=AIzaSyCHxdm0rZRuR4KG1x0YVcLQ44UJyn9TozE&sensor=false"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 
     <script type="text/javascript" src="heatmap.js"></script>
     <script type="text/javascript" src="gmaps.js"></script>
-    <script type="text/javascript" src = "mapsample.js"></script>
+    <script type="text/javascript" src = "heatmap_engine.js"></script>
 
 
   </head>
   <body>
+    <!-- map item -->
     <div id="map-canvas"></div>
   </body>
 </html>

@@ -1,12 +1,16 @@
 <!DOCTYPE HTML>
 <html>
-<title> NUS Device Count</title>
+<title> NUSWATCH Dynamic Chart</title>
 <head>
 
 </head>
+<!-- jquery allows for the accessing of javascript files outside this html file -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- canvasjs framework is used as a template for the dynamic chart -->
 <script type="text/javascript" src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<!-- dc_chart.js contains the script which loads the data into the chart -->
 <script type="text/javascript" src="dc_chart.js"></script>
+<!-- dynamicoptions.js control the changes in the location selector and the forecasting method selector -->
 <script type="text/javascript" src="dynamicoptions.js"></script>
 
 <link rel = "stylesheet" href="chartpage.css">
@@ -14,8 +18,10 @@
 
 
 <body>
+	<!-- this creates the chart element -->
 	<div id="chartContainer" class="chart">
 	</div>
+	<!-- the fieldset contains the location selector -->
 	<fieldset class = "options">
 		NUS >>
 		<select id="zone_option">
@@ -30,6 +36,7 @@
 		</select>
 
 		<br><br>
+		<!-- the form contains the forecast method selector -->
 		<form class ="inputmethod" name = "inputmethod" action="">
 			<input type="radio" name="method" id="ma3check" value="ma3"> Moving Average (3)</input><t>
 			<input type="radio" name="method" id="ma5check" value="ma5"> Moving Average (5)</input>

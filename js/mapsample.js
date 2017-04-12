@@ -1,10 +1,9 @@
    $(function() {
 
    	var getPoints = function () {
-   		 // map center
+   		 // this contains all the coordinates of the places in NUS
 
         //NUS
-
         var NUS = new google.maps.LatLng(1.2966, 103.7764);
         var MapCenter = new google.maps.LatLng(1.300051700629016,103.775954246521);
         //UTOWN
@@ -26,7 +25,6 @@
         var GRS = new google.maps.LatLng(1.3052055740807353,103.77389967441559);
         
         //ENGADM
-        // var E3A = new google.maps.LatLng(1.3005611891086315,103.7708929181099);
         var E2A = new google.maps.LatLng(1.2987538453006877,103.77137839794159);
         var EA = new google.maps.LatLng(1.3002447699597008,103.77050399780273);
         var E4A = new google.maps.LatLng(1.2985607758560374,103.77254247665405);
@@ -124,7 +122,8 @@
         var S15 = new google.maps.LatLng(1.297144932811448,103.78042280673981);
         var LT34 = new google.maps.LatLng(1.3062942681634273,103.77243518829346);
        
-
+        // the dictionary contains the pairing between the google map coordinates and the name of the location
+        // in the API
         var dictionary = {
           "UTown-TLL": TownPlaza,
           "UTown-GRN": SRC,
@@ -220,17 +219,6 @@
           "LT34": LT34,
 
         }
-        //business_schooliness School
-        // var business_school = new google.maps.LatLng(1.29417, 103.77389);
-        // //Engineering Faculty
-        // var engineering_faculty = new google.maps.LatLng(1.3003, 103.7708);
-        // //Central Library
-        // var clb = new google.maps.LatLng(1.2966, 103.7732);
-        // //Science Faculty
-        // var NUH = new google.maps.LatLng(1.29468866, 103.78327668);
-        // //UCC
-        // var UCC = new google.maps.LatLng(1.30155871, 103.77220452);
-        // //CLB
 
 
         // map options,
@@ -262,37 +250,14 @@
             valueField: 'count'
           }
           );
-        // var NUS = new google.maps.Marker({
-        //   position: UTown,
-        //   map: map,
-        //   label:{
-        //     color: 'black',
-        //     fontWeight: 'bold',
-        //     text: 'NUS'
-        //   },
-        //   icon: {
-        //     labelOrigin: new google.maps.Point(11, 50),
-        //     size: new google.maps.Size(22, 40),
-        //     origin: new google.maps.Point(0, 0),
-        //     anchor: new google.maps.Point(11, 40),
-        //   },
-        // });
 
-
-        // var nuh_marker = new google.maps.Marker({
-        //   position: NUH,
-        //   map:map
-        // });
-
-        // var eng_marker = new google.maps.Marker({
-        //   position: engineering_faculty,
-        //   map:map
-        // });
-
+        // API link which provides the data to the device counts of each building
         var apiLinkActual = "http://localhost:9090/nusdcapi/devicecountbuilding";
 
         var EnginAdmCountString;
         var EnginAdmCount;
+        
+        // GET REQUEST to extract the data
         $.getJSON(apiLinkActual, function( data ) {
           arrActual = data["counts"];
           arrayOfCount = [];
@@ -320,26 +285,11 @@
           data: dataArray
         };
 
-      // var cinnamonMarker = new google.maps.Marker({
-      //     position: Cinnamon,
-      //     map: map,
-      //     label:{
-      //       color: 'black',
-      //       fontWeight: 'bold',
-      //       text: (arrayOfCount["UTown-Cinanmon"]).toString(),
-      //     },
-      //     icon: {
-      //       labelOrigin: new google.maps.Point(11, 50),
-      //       size: new google.maps.Size(22, 40),
-      //       origin: new google.maps.Point(0, 0),
-      //       anchor: new google.maps.Point(11, 40),
-      //     },
-      //   });
-        // testData.data.push({last:1.3047, lng:103.78, count:EnginAdmCount});
         heatmap.setData(testData);
         }); 
         
       }
+      // call the function which loads the heatmap 
       getPoints();
 
     });

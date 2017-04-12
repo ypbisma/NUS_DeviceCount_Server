@@ -1,3 +1,5 @@
+// init.js is used to initialise the database to contain the device count information from the API
+
 var fs = require("fs");
 var deviceCountDb = "nusdc.db";
 var zbfListDb = "zonebuildingfloor.db"

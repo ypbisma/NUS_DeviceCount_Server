@@ -1,3 +1,7 @@
+// server.js contain all the links that are used to display the data in both the dynamic chart and the heatmap
+// each link is used inside the HTML and Javascript codes
+// server.js utilises Node.js express framework
+
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -23,9 +27,9 @@ var router = express.Router();
 
 
 //UNIVERSITY
+// open localhost:9090/nusdcapi/devicecountuni
+// returns the time series of device count at university level
 router.get('/devicecountuni', function(req, res) {
-	
-
 	devicedb.serialize(function() {
 		var uniDeviceCountList = [];
 		devicedb.all("Select rowid AS id, uniId, uniName, deviceCount, time, date FROM AggregateUniversity", function(err, rows) {
@@ -39,9 +43,10 @@ router.get('/devicecountuni', function(req, res) {
 	});
 });
 
-router.get('/forecastunima3', function(req, res) {
-	
 
+// open localhost:9090/nusdcapi/forecastunima3
+// returns the time series of forecasted count at university level using 3-step moving average method
+router.get('/forecastunima3', function(req, res) {
 	devicedb.serialize(function() {
 		var forecastUniMa3 = [];
 		devicedb.all("Select rowid AS id, uniId, uniName, ma3, time, date FROM ForecastUniMa3", function(err, rows) {
@@ -54,9 +59,10 @@ router.get('/forecastunima3', function(req, res) {
 	});
 });
 
-router.get('/forecastunima5', function(req, res) {
-	
 
+// open localhost:9090/nusdcapi/forecastunima5
+// returns the time series of forecasted count at university level using 5-step moving average method
+router.get('/forecastunima5', function(req, res) {
 	devicedb.serialize(function() {
 		var forecastUniMa5 = [];
 		devicedb.all("Select rowid AS id, uniId, uniName, ma5, time, date FROM ForecastUniMa5", function(err, rows) {
@@ -69,9 +75,10 @@ router.get('/forecastunima5', function(req, res) {
 	});
 });
 
-router.get('/forecastuniwa', function(req, res) {
-	
 
+// open localhost:9090/nusdcapi/forecastuniwa
+// returns the time series of forecasted count at university level using weighted average method
+router.get('/forecastuniwa', function(req, res) {
 	devicedb.serialize(function() {
 		var forecastUniWa = [];
 		devicedb.all("Select rowid AS id, uniId, uniName, wa, time, date FROM ForecastUniWa", function(err, rows) {
@@ -84,9 +91,9 @@ router.get('/forecastuniwa', function(req, res) {
 	});
 });
 
+// open localhost:9090/nusdcapi/forecastunies
+// returns the time series of forecasted count at university level using exponential smoothing method
 router.get('/forecastunies', function(req, res) {
-	
-
 	devicedb.serialize(function() {
 		var forecastUniEs = [];
 		devicedb.all("Select rowid AS id, uniId, uniName, es, time, date FROM ForecastUniEs", function(err, rows) {
@@ -102,9 +109,9 @@ router.get('/forecastunies', function(req, res) {
 
 
 //BUILDING
+// open localhost:9090/nusdcapi/devicecountbuilding
+// returns the time series of device count at building level
 router.get('/devicecountbuilding', function(req, res) {
-	
-
 	devicedb.serialize(function() {
 		var buildingDeviceCountList = [];
 		devicedb.all("Select rowid AS id, buildingId, buildingName, deviceCount, time, date FROM AggregateBuilding", function(err, rows) {
@@ -117,9 +124,9 @@ router.get('/devicecountbuilding', function(req, res) {
 	});
 });
 
+// open localhost:9090/nusdcapi/forecastbuildingma3
+// returns the time series of forecasted count at building level using 3-step moving average method
 router.get('/forecastbuildingma3', function(req, res) {
-	
-
 	devicedb.serialize(function() {
 		var forecastBuildingMa3 = [];
 		devicedb.all("Select rowid AS id, buildingId, buildingName, ma3, time, date FROM ForecastBuildingMa3", function(err, rows) {
@@ -132,6 +139,8 @@ router.get('/forecastbuildingma3', function(req, res) {
 	});
 });
 
+// open localhost:9090/nusdcapi/forecastbuildingma5
+// returns the time series of forecasted count at building level using 5-step moving average method
 router.get('/forecastbuildingma5', function(req, res) {
 	
 
@@ -148,6 +157,8 @@ router.get('/forecastbuildingma5', function(req, res) {
 });
 
 
+// open localhost:9090/nusdcapi/forecastbuildingwa
+// returns the time series of forecasted count at building level using weighted average method
 router.get('/forecastbuildingwa', function(req, res) {
 	
 
@@ -163,10 +174,9 @@ router.get('/forecastbuildingwa', function(req, res) {
 	});
 });
 
-
+// open localhost:9090/nusdcapi/forecastbuildinges
+// returns the time series of forecasted count at building level using exponential smoothing method
 router.get('/forecastbuildinges', function(req, res) {
-	
-
 	devicedb.serialize(function() {
 		var forecastBuildingEs = [];
 		devicedb.all("Select rowid AS id, buildingId, buildingName, es, time, date FROM ForecastBuildingEs", function(err, rows) {
@@ -180,9 +190,9 @@ router.get('/forecastbuildinges', function(req, res) {
 });
 
 //ZONE
+// open localhost:9090/nusdcapi/devicecountzone
+// returns the time series of device count at zone level
 router.get('/devicecountzone', function(req, res) {
-	
-
 	devicedb.serialize(function() {
 		var zoneDeviceCountList = [];
 		devicedb.all("Select rowid AS id, zoneId, zoneName, deviceCount, time, date FROM AggregateZone", function(err, rows) {
@@ -195,9 +205,9 @@ router.get('/devicecountzone', function(req, res) {
 	});
 });
 
+// open localhost:9090/nusdcapi/forecastzonema3
+// returns the time series of forecasted count at zone level using 3-step moving average method
 router.get('/forecastzonema3', function(req, res) {
-	
-
 	devicedb.serialize(function() {
 		var forecastZoneMa3 = [];
 		devicedb.all("Select rowid AS id, zoneId, zoneName, ma3, time, date FROM ForecastZoneMa3", function(err, rows) {
@@ -210,8 +220,9 @@ router.get('/forecastzonema3', function(req, res) {
 	});
 });
 
+// open localhost:9090/nusdcapi/forecastzonema5
+// returns the time series of forecasted count at zone level using 5-step moving average method
 router.get('/forecastzonema5', function(req, res) {
-	
 
 	devicedb.serialize(function() {
 		var forecastZoneMa5 = [];
@@ -225,8 +236,10 @@ router.get('/forecastzonema5', function(req, res) {
 	});
 });
 
+
+// open localhost:9090/nusdcapi/forecastzonewa
+// returns the time series of forecasted count at zone level using weighted average method
 router.get('/forecastzonewa', function(req, res) {
-	
 
 	devicedb.serialize(function() {
 		var forecastZoneWa = [];
@@ -240,9 +253,9 @@ router.get('/forecastzonewa', function(req, res) {
 	});
 });
 
+// open localhost:9090/nusdcapi/forecastzoneees
+// returns the time series of forecasted count at zone level using exponential smoothing method
 router.get('/forecastzonees', function(req, res) {
-	
-
 	devicedb.serialize(function() {
 		var forecastZoneEs = [];
 		devicedb.all("Select rowid AS id, zoneId, zoneName, es, time, date FROM ForecastZoneEs", function(err, rows) {
@@ -257,6 +270,8 @@ router.get('/forecastzonees', function(req, res) {
 
 
 //FLOOR
+// open localhost:9090/nusdcapi/devicecountfloor
+// returns the time series of device count at floor level
 router.get('/devicecountfloor', function(req, res) {
 
 	devicedb.serialize(function() {
@@ -273,9 +288,10 @@ router.get('/devicecountfloor', function(req, res) {
 
 
 //ZBF
-router.get('/getallzones', function(req, res) {
-	
 
+// open localhost:9090/nusdcapi/getallzones
+// returns the the names of all the zones in NUS API
+router.get('/getallzones', function(req, res) {
 	zbfdb.serialize(function() {
 		var zoneList = [];
 		zbfdb.all("Select rowid AS id, zoneId, zoneName FROM Zone", function(err, rows) {
@@ -288,9 +304,9 @@ router.get('/getallzones', function(req, res) {
 	});
 });
 
+// open localhost:9090/nusdcapi/getallbuildings
+// returns the the names of all the buildings in NUS API
 router.get('/getallbuildings', function(req, res) {
-	
-
 	zbfdb.serialize(function() {
 		var buildingList = [];
 		zbfdb.all("Select rowid AS id, buildingId, buildingName, zoneId FROM Building", function(err, rows) {
@@ -303,9 +319,9 @@ router.get('/getallbuildings', function(req, res) {
 	});
 });
 
+// open localhost:9090/nusdcapi/getallfloors
+// returns the the names of all the floors in NUS API
 router.get('/getallfloors', function(req, res) {
-	
-
 	zbfdb.serialize(function() {
 		var floorList = [];
 		zbfdb.all("Select rowid AS id, floorId, floorName, buildingId FROM Floor", function(err, rows) {
@@ -324,48 +340,50 @@ router.get('/getallfloors', function(req, res) {
 
 //FILES
 
-
+// open localhost:9090/nusdcapi/dynamicchart
+// access the dynamic chart page
 router.get('/dynamicchart', function(req, res) {
     res.sendFile(path.join(__dirname + '/dynamicchart.html'));
 });
-
+// open localhost:9090/nusdcapi/heatmap
+// access the heatmap page
 router.get('/heatmap', function(req, res) {
     res.sendFile(path.join(__dirname + '/heatmap.html'));
 });
-
+// open localhost:9090/nusdcapi/heatmap
+// to include the script of the dynamic chart
 router.get('/dc_chart.js', function(req, res) {
 	res.sendFile(path.join(__dirname + '/js/dc_chart.js'));
 })
-
+// to access the code to a pie chart...not included in the project scope
 router.get('/pie_chart.js', function(req, res) {
 	res.sendFile(path.join(__dirname + '/js/pie_chart.js'));
 })
-
+// open localhost:9090/nusdcapi/dynamicoptions.js
+// to include the script that controls the location selector and forecasting method selector
 router.get('/dynamicoptions.js', function(req, res) {
 	res.sendFile(path.join(__dirname + '/js/dynamicoptions.js'));
 })
-
-router.get('/chartupdate.js', function(req, res) {
-	res.sendFile(path.join(__dirname + '/js/chartupdate.js'));
-})
-
+// open localhost:9090/nusdcapi/map.js
+// to include the script that modifies the map
 router.get('/map.js', function(req, res) {
 	res.sendFile(path.join(__dirname + '/js/map.js'));
 })
 
+// to load plugin of the heatmap
 router.get('/gmaps.js', function(req, res) {
 	res.sendFile(path.join(__dirname + '/js/heatmap.js-master/plugins/gmaps-heatmap/gmaps-heatmap.js'));
 })
-
+// a necessary part of the heatmap
 router.get('/heatmap.js', function(req, res) {
 	res.sendFile(path.join(__dirname + '/js/heatmap.js-master/build/heatmap.js'));
 })
-
-router.get('/mapsample.js', function(req, res) {
-	res.sendFile(path.join(__dirname + '/js/mapsample.js'));
+// a necessary part of the heatmap
+router.get('/heatmap_engine.js', function(req, res) {
+	res.sendFile(path.join(__dirname + '/js/heatmap_engine.js'));
 })
 
-
+// contains the styles to the dynamic chart page
 router.get('/chartpage.css', function(req, res) {
 	res.sendFile(path.join(__dirname + '/css/chartpage.css'));
 })
@@ -377,5 +395,5 @@ app.use('/nusdcapi', router);
 
 //Start the server
 app.listen(port);
-console.log('Magic happens on port ' + port);
+console.log('localhost is set at port ' + port);
 
